@@ -21,24 +21,12 @@
         <div id="map"></div>
     </div>
 
-    <script>
-      function initMap() {
-        var fortWorth = {lat: 32.7554883, lng: -97.3307658};
-        var map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 11,
-          center: fortWorth
-        });
-        // var marker = new google.maps.Marker({
-        //   position: fortWorth,
-        //   map: map
-        // });
-      }
-    </script>
-
-    <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js'></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js'></script>
     <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDNAFe7q02E2UM1muRwckmBaNg7bheFr_o&callback=initMap">
     </script>
     <script src="js/app.js"></script>
+    <script src="js/map.js"></script>
 </body>
 </html>
