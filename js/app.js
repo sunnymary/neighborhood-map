@@ -17,16 +17,20 @@ function AppViewModel() {
         self.companyArray.push(new Company(oneCompany));
     });
 
+    this.openInfowindowByClickListName = function(){
 
-    this.firstName = ko.observable("Bert");
-    this.lastName = ko.observable("Bertington");
-    this.fullName = ko.computed(function(){
-        return this.firstName() + " " + this.lastName();
-    }, this);
-    this.capitalizeLastName = function(){
-        var currentVal = this.lastName();
-        this.lastName(currentVal.toUpperCase());
-    };
+    }
+
+
+    // this.firstName = ko.observable("Bert");
+    // this.lastName = ko.observable("Bertington");
+    // this.fullName = ko.computed(function(){
+    //     return this.firstName() + " " + this.lastName();
+    // }, this);
+    // this.capitalizeLastName = function(){
+    //     var currentVal = this.lastName();
+    //     this.lastName(currentVal.toUpperCase());
+    // };
 }
 
 // Activates knockout.js

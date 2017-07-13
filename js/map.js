@@ -9,11 +9,28 @@ function initMap() {
     center: fortWorth
   });
 
-  //map(javascript method) the companyList to show them as markers on the map
-  var markers = companyList.map(function(company){
-    return new google.maps.Marker({
+  //loop through companyList to create marker&infowindow
+  companyList.forEach(function(company){
+    var contentString =
+      '<h4>'+ company.name +'</h4>'+
+      '<p>employment:' + company.employment + '</p>';
+
+    var infowindow = new google.maps.InfoWindow({
+      content: contentString
+    });
+
+    var marker = new google.maps.Marker({
       position: company,
       map: map
     });
+
+    //add method to open/close infowindow
+    marker.addListener('mouseover', function() {
+      infowindow.open(map, marker);
+    });
+    marker.addListener('mouseout', function() {
+      infowindow.close(map, marker);
+    });
   });
+
 }
