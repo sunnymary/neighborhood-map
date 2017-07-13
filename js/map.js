@@ -9,8 +9,11 @@ function initMap() {
     center: fortWorth
   });
 
-  // var marker = new google.maps.Marker({
-  //   position:
-  //   map: map
-  // });
+  //map(javascript method) the companyList to show them as markers on the map
+  var markers = companyList.map(function(company){
+    return new google.maps.Marker({
+      position: company,
+      map: map
+    });
+  });
 }
