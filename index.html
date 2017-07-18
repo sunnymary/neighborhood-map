@@ -9,11 +9,11 @@
     <div class="list-view">
         <h2>Company List</h2>
         <div class="search">
-            <input type="text" name="search-box" placeholder="Enter Key Word Here ...">
+            <input id="search-box" type="text" name="search-box" placeholder="Enter Key Word Here ...">
             <button>Search</button>
         </div>
         <ul data-bind="foreach: companyArray">
-            <li data-bind="text: name"></li>
+            <li data-bind="text: name, event: {mouseover: $parent.enableInfowindow, mouseout: $parent.disableInfowindow}"></li>
         </ul>
     </div>
 
