@@ -10,10 +10,11 @@
         <h2>Company List</h2>
         <div class="search">
             <input id="search-box" type="text" name="search-box" placeholder="Enter Key Word Here ...">
-            <button>Search</button>
+            <button data-bind="click:matchSearch">Search</button>
+            <button data-bind="click:showAllList">Show All</button>
         </div>
         <ul data-bind="foreach: companyArray">
-            <li data-bind="text: name, event: {mouseover: $parent.enableInfowindow, mouseout: $parent.disableInfowindow}"></li>
+            <li data-bind="text: name, event: {mouseover: $parent.enableInfowindow, mouseout: $parent.disableInfowindow}, visible: shouldShowMessage"></li>
         </ul>
     </div>
 
@@ -28,6 +29,5 @@
     </script>
     <script src="js/datasheet.js"></script>
     <script src="js/app.js"></script>
-    <script src="js/map.js"></script>
 </body>
 </html>
