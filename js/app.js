@@ -16,7 +16,8 @@ function initMap() {
         lng: -97.3307658
     };
     //use a constructor to create a new map JS object.
-    var map = new google.maps.Map(document.getElementById('map'), {
+    //the "this" keyword attach map to global scope for use
+    this.map = new google.maps.Map(document.getElementById('map'), {
         zoom: 11,
         center: fortWorth
     });
@@ -92,21 +93,29 @@ function AppViewModel() {
     this.companyArray().forEach(function(company){
         company.shouldShowMessage = ko.observable(true);
     });
-
-    //only
+    //function to search matched result
+    //this function is attacted to viewModel
     this.matchSearch = function() {
         var searchName = $("#search-box").val();
         this.companyArray().forEach(function(company){
-           if(company.name !== searchName){
+            company.shouldShowMessage(true);
+            company.marker.setMap(map);
+            //if the search name does not match list name,
+            //hide list/marker
+            if(company.name !== searchName){
                company.shouldShowMessage(false);
                company.marker.setMap(null);
-           }
+            }
         });
     }
 
+    //show all the list/marker
+    //this function is attacted to viewModel
     this.showAllList = function(){
         this.companyArray().forEach(function(company){
+            //show all the lists
             company.shouldShowMessage(true);
+            //show all the markers
             company.marker.setMap(map);
         });
     }
