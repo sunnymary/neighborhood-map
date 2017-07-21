@@ -69,6 +69,23 @@ function triggerMarkerMouseout(data) {
     new google.maps.event.trigger(data.marker, 'mouseout');
 }
 
+//autocomplete function
+//use jQuery autocomplete plugin - source: http://easyautocomplete.com/guide
+var options = {
+    //use data. if want to use json, need to run local server.
+    data: companyList,
+    //choose which property to show
+    getValue: "name",
+    //achieve better match.
+    list: {
+        match: {
+            enabled: true
+        }
+    }
+};
+//call the easyAutocomplete method
+$("#search-box").easyAutocomplete(options);
+
 
 // This is a simple *viewmodel* - JavaScript that defines the data and behavior of your UI
 function AppViewModel() {
