@@ -1,0 +1,22 @@
+{
+  "name": "neighborhood-map",
+  "version": "1.0.0",
+  "description": "Neighborhood Map\r ================",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sunnymary/neighborhood-map.git"
+  },
+  "author": "sunnymary",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sunnymary/neighborhood-map/issues"
+  },
+  "homepage": "https://github.com/sunnymary/neighborhood-map#readme",
+  "dependencies": {
+    "easy-autocomplete": "^1.3.5"
+  }
+}
