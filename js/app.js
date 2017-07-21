@@ -18,7 +18,7 @@ function initMap() {
     //use a constructor to create a new map JS object.
     //the "this" keyword attach map to global scope for use
     this.map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 11,
+        zoom: 10,
         center: fortWorth
     });
 
