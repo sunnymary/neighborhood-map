@@ -87,6 +87,7 @@ var options = {
 $("#search-box").easyAutocomplete(options);
 
 
+
 // This is a simple *viewmodel* - JavaScript that defines the data and behavior of your UI
 function AppViewModel() {
     var self = this;
@@ -124,18 +125,91 @@ function AppViewModel() {
                company.marker.setMap(null);
             }
         });
-    }
+    };
 
     //show all the list/marker
     //this function is attacted to viewModel
-    this.showAllList = function(){
+    this.showAllListAndMarker = function(){
         this.companyArray().forEach(function(company){
             //show all the lists
             company.shouldShowMessage(true);
             //show all the markers
             company.marker.setMap(map);
         });
+    };
+
+    //hide all the list/marker
+    //use in showDetail function
+    this.hideAllListAndMarker = function(){
+        this.companyArray().forEach(function(company){
+            //show all the lists
+            company.shouldShowMessage(false);
+            //show all the markers
+            company.marker.setMap(null);
+        });
     }
+
+    this.matchClick = function(company){
+        this.companyArray().forEach(function(company){
+            //show the markers
+            company.marker.setMap(map);
+        });
+    }
+
+    //click on the list to show its detail information
+    this.showDetail = function(company){
+        //AJAX from third party API - indeed api
+        //form URL request
+        var indeedURL = "http://api.indeed.com/ads/apisearch?publisher=4001111316373962&format=json&q=" + company.name + "&l=" +company.location + "&sort=&radius=&st=&jt=&start=&limit=&fromage=&filter=&latlong=1&co=us&chnl=&userip=1.2.3.4&useragent=Mozilla/%2F4.0%28Firefox%29&v=2";
+
+
+        //get response
+        //to avoid CORS problem, need to use .ajax method, use jsonp data type
+        //tutorial: https://www.html5rocks.com/en/tutorials/cors/#toc-cors-from-jquery
+        //reference: http://hayageek.com/cross-domain-ajax-request-jquery/
+        $.ajax({
+          type: 'GET',
+          // The URL to make the request to.
+          url: indeedURL,
+          dataType: "jsonp",
+
+          success: function(data) {
+            // handle a successful response.
+            //hide all lists and markers
+            viewModel.hideAllListAndMarker();
+            //hide company-list section
+            $(".company-list-container").hide();
+            //show the marker of this element
+            company.marker.setMap(map);
+
+            //insert title for job list section
+            var companyTitle = "<h3>Jobs in " + company.name +"</h3>";
+            $(".job-list-container").prepend(companyTitle);
+
+            //get result from json
+            var jobTitle = data.results[0].jobtitle;
+            var jobCompany = data.results[0].company;
+            var jobLocation = data.results[0].formattedLocationFull;
+            var jobURL = data.results[0].url;
+            var jobSnippet = data.results[0].snippet;
+            var jobDate = data.results[0].formattedRelativeTime;
+
+            var jobTitleTag = "<h4> Job Title: "+ jobTitle +"</h4>";
+            var jobDetailTag = "<p>" + jobCompany + " - " + jobLocation + ", " +jobDate + "</p>"
+            var jobDescriptionTag = "<p>Description:"+ jobSnippet +"</p>";
+            var jobLinkTag = "<a href='"+ jobURL +"'>Link to Job</a>";
+
+            $(".job-list").append(jobTitleTag, jobDetailTag, jobDescriptionTag, jobLinkTag);
+
+            console.log(data);
+          },
+
+          error: function() {
+            // handle an error response.
+          }
+        });
+
+    };
 }
 
 var viewModel = new AppViewModel();

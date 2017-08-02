@@ -10,16 +10,22 @@
 </head>
 <body>
     <div class="list-view">
-        <h2>Company List</h2>
         <div class="search">
             <input id="search-box" type="text" name="search-box" placeholder="Enter Key Word Here ..." />
             <button data-bind="click:matchSearch">Search</button>
-            <button data-bind="click:showAllList">Show All</button>
+            <button data-bind="click:showAllListAndMarker">Show All</button>
         </div>
-        <ul data-bind="foreach: companyArray">
-            <li data-bind="text: name, event: {mouseover: $parent.enableInfowindow, mouseout: $parent.disableInfowindow}, visible: shouldShowMessage"></li>
-        </ul>
+        <div class="company-list-container">
+            <h3>Company List</h3>
+            <ul class="company-list" data-bind="foreach: companyArray">
+                <li data-bind="text: name, event: {mouseover: $parent.enableInfowindow, mouseout: $parent.disableInfowindow}, visible: shouldShowMessage, click: $parent.showDetail"></li>
+            </ul>
+        </div>
+        <div class="job-list-container">
+            <ul class="job-list"></ul>
+        </div>
     </div>
+
 
     <div class="map-view">
         <div id="map"></div>
