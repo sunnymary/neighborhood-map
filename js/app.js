@@ -149,13 +149,6 @@ function AppViewModel() {
         });
     }
 
-    this.matchClick = function(company){
-        this.companyArray().forEach(function(company){
-            //show the markers
-            company.marker.setMap(map);
-        });
-    }
-
     //click on the list to show its detail information
     this.showDetail = function(company){
         //AJAX from third party API - indeed api
@@ -180,26 +173,38 @@ function AppViewModel() {
             //hide company-list section
             $(".company-list-container").hide();
             //show the marker of this element
-            company.marker.setMap(map);
+            var newMap = new google.maps.Map(document.getElementById('map'), {
+                zoom: 14,
+                center: company
+            });
+            company.marker.setMap(newMap);
 
             //insert title for job list section
             var companyTitle = "<h3>Jobs in " + company.name +"</h3>";
             $(".job-list-container").prepend(companyTitle);
 
-            //get result from json
-            var jobTitle = data.results[0].jobtitle;
-            var jobCompany = data.results[0].company;
-            var jobLocation = data.results[0].formattedLocationFull;
-            var jobURL = data.results[0].url;
-            var jobSnippet = data.results[0].snippet;
-            var jobDate = data.results[0].formattedRelativeTime;
+            //loop through the json results
+            for (var i = 0; i < data.results.length; i++) {
+                //get result from json
+                var jobTitle = data.results[i].jobtitle;
+                var jobCompany = data.results[i].company;
+                var jobLocation = data.results[i].formattedLocationFull;
+                var jobURL = data.results[i].url;
+                var jobSnippet = data.results[i].snippet;
+                var jobDate = data.results[i].formattedRelativeTime;
 
-            var jobTitleTag = "<h4> Job Title: "+ jobTitle +"</h4>";
-            var jobDetailTag = "<p>" + jobCompany + " - " + jobLocation + ", " +jobDate + "</p>"
-            var jobDescriptionTag = "<p>Description:"+ jobSnippet +"</p>";
-            var jobLinkTag = "<a href='"+ jobURL +"'>Link to Job</a>";
+                //form DOM element
+                var jobTitleTag = "<h4> Job Title: "+ jobTitle +"</h4>";
+                var jobDetailTag = "<p>" + jobCompany + " - " + jobLocation + ", " +jobDate + "</p>"
+                var jobDescriptionTag = "<p>Description:"+ jobSnippet +"</p>";
+                var jobLinkTag = "<a href='"+ jobURL +"'>Link to Job</a>";
 
-            $(".job-list").append(jobTitleTag, jobDetailTag, jobDescriptionTag, jobLinkTag);
+                //append DOM to the app
+                $(".job-list").append("<li></li>");
+                $(".job-list li").last().append(jobTitleTag, jobDetailTag, jobDescriptionTag, jobLinkTag);
+            }
+
+
 
             console.log(data);
           },
