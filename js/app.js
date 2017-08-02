@@ -15,7 +15,7 @@ function initMap() {
         lat: 32.7554883,
         lng: -97.3307658
     };
-    //use a constructor to create a new map JS object.
+    //use a constructor to create a new map JS object. This is a map for all
     //the "this" keyword attach map to global scope for use
     this.map = new google.maps.Map(document.getElementById('map'), {
         zoom: 10,
@@ -67,6 +67,13 @@ function triggerMarkerMouseover(data) {
 
 function triggerMarkerMouseout(data) {
     new google.maps.event.trigger(data.marker, 'mouseout');
+}
+
+function showCompanyListDOM(){
+    //clear job list and title
+    $(".job-list li,.job-list-title").remove();
+    //show company list
+    $(".company-list-container").show();
 }
 
 //autocomplete function
@@ -130,9 +137,14 @@ function AppViewModel() {
     //show all the list/marker
     //this function is attacted to viewModel
     this.showAllListAndMarker = function(){
+        //show the company list DOM element
+        showCompanyListDOM();
+
+        //this shows the list/markers
         this.companyArray().forEach(function(company){
             //show all the lists
             company.shouldShowMessage(true);
+            //TODO: reset map to the initial???
             //show all the markers
             company.marker.setMap(map);
         });
@@ -151,10 +163,23 @@ function AppViewModel() {
 
     //click on the list to show its detail information
     this.showDetail = function(company){
+        //TODO: change  map scale for company???
+
+        //hide all lists and markers
+        viewModel.hideAllListAndMarker();
+        //hide company-list section
+        $(".company-list-container").hide();
+        //show the marker of this element
+        company.marker.setMap(map);
+
+        //insert title for job list section
+        var companyTitle = "<h3 class='job-list-title'>Jobs in " + company.name +"</h3>";
+        $(".job-list-container").prepend(companyTitle);
+
+
         //AJAX from third party API - indeed api
         //form URL request
         var indeedURL = "http://api.indeed.com/ads/apisearch?publisher=4001111316373962&format=json&q=" + company.name + "&l=" +company.location + "&sort=&radius=&st=&jt=&start=&limit=&fromage=&filter=&latlong=1&co=us&chnl=&userip=1.2.3.4&useragent=Mozilla/%2F4.0%28Firefox%29&v=2";
-
 
         //get response
         //to avoid CORS problem, need to use .ajax method, use jsonp data type
@@ -168,21 +193,6 @@ function AppViewModel() {
 
           success: function(data) {
             // handle a successful response.
-            //hide all lists and markers
-            viewModel.hideAllListAndMarker();
-            //hide company-list section
-            $(".company-list-container").hide();
-            //show the marker of this element
-            var newMap = new google.maps.Map(document.getElementById('map'), {
-                zoom: 14,
-                center: company
-            });
-            company.marker.setMap(newMap);
-
-            //insert title for job list section
-            var companyTitle = "<h3>Jobs in " + company.name +"</h3>";
-            $(".job-list-container").prepend(companyTitle);
-
             //loop through the json results
             for (var i = 0; i < data.results.length; i++) {
                 //get result from json
