@@ -69,11 +69,11 @@ function triggerMarkerMouseout(data) {
     new google.maps.event.trigger(data.marker, 'mouseout');
 }
 
-function showCompanyListDOM(){
-    //clear job list and title
-    $(".job-list li,.job-list-title").remove();
-    //show company list
-    $(".company-list-container").show();
+//function to reset map to its original scale and center
+function resetMap(){
+    var fortWorth = {lat: 32.7554883,lng: -97.3307658};
+    map.setCenter(fortWorth);
+    map.setZoom(10);
 }
 
 //autocomplete function
@@ -134,17 +134,25 @@ function AppViewModel() {
         });
     };
 
+    //function to show company list and remove job list
+    this.showCompanyListDOM = function(){
+        //clear job list and title
+        $(".job-list li,.job-list-title").remove();
+        //show company list
+        $(".company-list-container").show();
+    }
+
     //show all the list/marker
     //this function is attacted to viewModel
     this.showAllListAndMarker = function(){
         //show the company list DOM element
-        showCompanyListDOM();
-
+        this.showCompanyListDOM();
+        //reset map to initial bounds
+        resetMap();
         //this shows the list/markers
         this.companyArray().forEach(function(company){
             //show all the lists
             company.shouldShowMessage(true);
-            //TODO: reset map to the initial???
             //show all the markers
             company.marker.setMap(map);
         });
@@ -163,8 +171,9 @@ function AppViewModel() {
 
     //click on the list to show its detail information
     this.showDetail = function(company){
-        //TODO: change  map scale for company???
-
+        //change  map scale for company and center
+        map.setZoom(14);
+        map.setCenter(company);
         //hide all lists and markers
         viewModel.hideAllListAndMarker();
         //hide company-list section
@@ -213,10 +222,6 @@ function AppViewModel() {
                 $(".job-list").append("<li></li>");
                 $(".job-list li").last().append(jobTitleTag, jobDetailTag, jobDescriptionTag, jobLinkTag);
             }
-
-
-
-            console.log(data);
           },
 
           error: function() {
