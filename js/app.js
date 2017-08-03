@@ -51,6 +51,20 @@ function initMap() {
         marker.addListener('mouseout', function() {
             infowindow.close(map, marker);
         });
+
+        //add eventlister to show detail
+        marker.addListener('click', function(){
+            //change  map scale for company and center
+            map.setZoom(14);
+            map.setCenter(company);
+            //hide all lists and markers
+            viewModel.hideAllMarker();
+            //show the marker of this element
+            marker.setMap(map);
+            createJobDetailSection(company);
+            processIndeedAPI(company);
+
+        });
     });
 
     //add markers/infowindows to companyArray
@@ -59,6 +73,7 @@ function initMap() {
         viewModel.companyArray()[i].marker = markers[i];
     }
 }
+
 
 //functions to trigger marker events
 function triggerMarkerMouseover(data) {
@@ -69,11 +84,72 @@ function triggerMarkerMouseout(data) {
     new google.maps.event.trigger(data.marker, 'mouseout');
 }
 
+function triggerMarkerClick(data) {
+    new google.maps.event.trigger(data.marker, 'click');
+}
+
 //function to reset map to its original scale and center
 function resetMap(){
     var fortWorth = {lat: 32.7554883,lng: -97.3307658};
     map.setCenter(fortWorth);
     map.setZoom(10);
+}
+
+//function to hide company list and create job list section
+//this function is used in marker/list click event
+function createJobDetailSection(company){
+    //hide company-list section
+    $(".company-list-container").hide();
+    //insert title for job list section
+    var companyTitle = "<h3 class='job-list-title'>Jobs in " + company.name +"</h3>";
+    $(".job-list-container").prepend(companyTitle);
+}
+
+//function to request, get and process data from indeed api
+//this function is used in marker/list click event
+function processIndeedAPI(company){
+    //AJAX from third party API - indeed api
+    //form URL request
+    var indeedURL = "http://api.indeed.com/ads/apisearch?publisher=4001111316373962&format=json&q=" + company.name + "&l=" +company.location + "&sort=&radius=&st=&jt=&start=&limit=&fromage=&filter=&latlong=1&co=us&chnl=&userip=1.2.3.4&useragent=Mozilla/%2F4.0%28Firefox%29&v=2";
+
+    //get response
+    //to avoid CORS problem, need to use .ajax method, use jsonp data type
+    //tutorial: https://www.html5rocks.com/en/tutorials/cors/#toc-cors-from-jquery
+    //reference: http://hayageek.com/cross-domain-ajax-request-jquery/
+    $.ajax({
+      type: 'GET',
+      // The URL to make the request to.
+      url: indeedURL,
+      dataType: "jsonp",
+
+      success: function(data) {
+        // handle a successful response.
+        //loop through the json results
+        for (var i = 0; i < data.results.length; i++) {
+            //get result from json
+            var jobTitle = data.results[i].jobtitle;
+            var jobCompany = data.results[i].company;
+            var jobLocation = data.results[i].formattedLocationFull;
+            var jobURL = data.results[i].url;
+            var jobSnippet = data.results[i].snippet;
+            var jobDate = data.results[i].formattedRelativeTime;
+
+            //form DOM element
+            var jobTitleTag = "<h4> Job Title: "+ jobTitle +"</h4>";
+            var jobDetailTag = "<p>" + jobCompany + " - " + jobLocation + ", " +jobDate + "</p>"
+            var jobDescriptionTag = "<p>Description:"+ jobSnippet +"</p>";
+            var jobLinkTag = "<a href='"+ jobURL +"'>Link to Job</a>";
+
+            //append DOM to the app
+            $(".job-list").append("<li></li>");
+            $(".job-list li").last().append(jobTitleTag, jobDetailTag, jobDescriptionTag, jobLinkTag);
+        }
+      },
+
+      error: function() {
+        // handle an error response.
+      }
+    });
 }
 
 //autocomplete function
@@ -160,76 +236,18 @@ function AppViewModel() {
 
     //hide all the list/marker
     //use in showDetail function
-    this.hideAllListAndMarker = function(){
+    this.hideAllMarker = function(){
         this.companyArray().forEach(function(company){
-            //show all the lists
-            company.shouldShowMessage(false);
-            //show all the markers
+            //hide all the markers
             company.marker.setMap(null);
         });
     }
 
     //click on the list to show its detail information
     this.showDetail = function(company){
-        //change  map scale for company and center
-        map.setZoom(14);
-        map.setCenter(company);
-        //hide all lists and markers
-        viewModel.hideAllListAndMarker();
-        //hide company-list section
-        $(".company-list-container").hide();
-        //show the marker of this element
-        company.marker.setMap(map);
-
-        //insert title for job list section
-        var companyTitle = "<h3 class='job-list-title'>Jobs in " + company.name +"</h3>";
-        $(".job-list-container").prepend(companyTitle);
-
-
-        //AJAX from third party API - indeed api
-        //form URL request
-        var indeedURL = "http://api.indeed.com/ads/apisearch?publisher=4001111316373962&format=json&q=" + company.name + "&l=" +company.location + "&sort=&radius=&st=&jt=&start=&limit=&fromage=&filter=&latlong=1&co=us&chnl=&userip=1.2.3.4&useragent=Mozilla/%2F4.0%28Firefox%29&v=2";
-
-        //get response
-        //to avoid CORS problem, need to use .ajax method, use jsonp data type
-        //tutorial: https://www.html5rocks.com/en/tutorials/cors/#toc-cors-from-jquery
-        //reference: http://hayageek.com/cross-domain-ajax-request-jquery/
-        $.ajax({
-          type: 'GET',
-          // The URL to make the request to.
-          url: indeedURL,
-          dataType: "jsonp",
-
-          success: function(data) {
-            // handle a successful response.
-            //loop through the json results
-            for (var i = 0; i < data.results.length; i++) {
-                //get result from json
-                var jobTitle = data.results[i].jobtitle;
-                var jobCompany = data.results[i].company;
-                var jobLocation = data.results[i].formattedLocationFull;
-                var jobURL = data.results[i].url;
-                var jobSnippet = data.results[i].snippet;
-                var jobDate = data.results[i].formattedRelativeTime;
-
-                //form DOM element
-                var jobTitleTag = "<h4> Job Title: "+ jobTitle +"</h4>";
-                var jobDetailTag = "<p>" + jobCompany + " - " + jobLocation + ", " +jobDate + "</p>"
-                var jobDescriptionTag = "<p>Description:"+ jobSnippet +"</p>";
-                var jobLinkTag = "<a href='"+ jobURL +"'>Link to Job</a>";
-
-                //append DOM to the app
-                $(".job-list").append("<li></li>");
-                $(".job-list li").last().append(jobTitleTag, jobDetailTag, jobDescriptionTag, jobLinkTag);
-            }
-          },
-
-          error: function() {
-            // handle an error response.
-          }
-        });
-
-    };
+        //trigger click event for marker
+        triggerMarkerClick(company);
+    }
 }
 
 var viewModel = new AppViewModel();
