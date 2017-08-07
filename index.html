@@ -12,7 +12,7 @@
     <div class="list-view">
         <h2>Company Master</h2>
         <div class="search">
-            <input id="search-box" type="text" name="search-box" placeholder="Enter Key Word Here ..." />
+            <input id="search-box" data-bind="keypress:matchSearch" type="text" name="search-box" placeholder="Enter Key Word Here ..." />
             <button data-bind="click:matchSearch">Search</button>
             <button data-bind="click:showAllListAndMarker">Show All</button>
         </div>
@@ -22,6 +22,7 @@
                 <li data-bind="text: name, event: {mouseover: $parent.enableInfowindow, mouseout: $parent.disableInfowindow}, visible: shouldShowMessage, click: $parent.showDetail"></li>
             </ul>
         </div>
+        <div class="company-info-container"></div>
         <div class="job-list-container">
             <ul class="job-list"></ul>
         </div>
@@ -35,7 +36,7 @@
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js'></script>
     <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDNAFe7q02E2UM1muRwckmBaNg7bheFr_o&callback=initMap">
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDNAFe7q02E2UM1muRwckmBaNg7bheFr_o&libraries=places&callback=initMap">
     </script>
     <!-- jQuery autocomplete plugin - source: http://easyautocomplete.com/guide -->
     <script src="node_modules/easy-autocomplete/dist/jquery.easy-autocomplete.min.js"></script>

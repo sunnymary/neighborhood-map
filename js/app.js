@@ -61,9 +61,11 @@ function initMap() {
             viewModel.hideAllMarker();
             //show the marker of this element
             marker.setMap(map);
+            clearListPanel();
+            createCompanyInfoSection(company);
+            processGooglePlaceAPI(company);
             createJobDetailSection(company);
             processIndeedAPI(company);
-
         });
     });
 
@@ -95,14 +97,79 @@ function resetMap(){
     map.setZoom(10);
 }
 
+//function to clear company list, previous company info title/job list title
+//this function is used in marker/list click event
+function clearListPanel(){
+    //hide company-list section
+    $(".company-list-container").hide();
+    //remove the previous company info
+    $(".company-info-container").children().remove();
+    //remove the previous job list title
+    $(".job-list-title").remove();
+}
+
+//function to create Company info card
+//this function is used in marker/list click event
+function createCompanyInfoSection(company){
+    var companyTitleTag = "<h3 class='company-info-title'>" + company.name +"</h3>";
+    var companyAddressTag = "<p>Address: " + company.headquarterAddress + "</p>";
+    var employmentTag = "<p>Employment: " + company.employment + "</p>";
+    $(".company-info-container").append(companyTitleTag, companyAddressTag, employmentTag);
+}
+
 //function to hide company list and create job list section
 //this function is used in marker/list click event
 function createJobDetailSection(company){
-    //hide company-list section
-    $(".company-list-container").hide();
     //insert title for job list section
     var companyTitle = "<h3 class='job-list-title'>Jobs in " + company.name +"</h3>";
     $(".job-list-container").prepend(companyTitle);
+}
+
+//use google place API to get company detail information
+//this function is used in marker/list click event
+function processGooglePlaceAPI(company){
+    //AJAX from third party API - google place api
+    //form URL request
+
+    //1.search placeID
+    var searchRequest = {
+        location:company,
+        radius: '500',
+        query: company.queryName
+    };
+    var placeService = new google.maps.places.PlacesService(map);
+    placeService.textSearch(searchRequest, function(data){
+        var placeId = data[0].place_id;
+
+        //2. use placeId to get place detail
+        //this can get website, phone, photo infomartion
+        var detailRequest = {
+            placeId:placeId
+        };
+        placeService.getDetails(detailRequest,function(detailData){
+            console.log(detailData);
+            var website = detailData.website;
+            var phone = detailData.formatted_phone_number;
+            var rating = detailData.rating;
+            var photoURL = detailData.photos[0].getUrl({'maxWidth': 300, 'maxHeight': 300});
+
+            //include the data into DOM
+            var photoTag = "<img src='" + photoURL + "' alt='company photo'>";
+            $(".company-info-container").prepend(photoTag);
+
+            var phoneTag = "<p>Phone Number: " + phone + "</p>";
+            var ratingTag = "<p>Rating: " + rating + "</p>";
+            $(".company-info-container").append(phoneTag,ratingTag);
+
+            //some data don't have website
+            //include website tag if it has one.
+            if(website){
+                var websiteTag = "<a href='" + website + "'>Go to Website</p>";
+                $(".company-info-container").append(websiteTag);
+            }
+
+        })
+    });
 }
 
 //function to request, get and process data from indeed api
@@ -214,6 +281,8 @@ function AppViewModel() {
     this.showCompanyListDOM = function(){
         //clear job list and title
         $(".job-list li,.job-list-title").remove();
+        //clear company info section
+        $(".company-info-container").children().remove();
         //show company list
         $(".company-list-container").show();
     }
