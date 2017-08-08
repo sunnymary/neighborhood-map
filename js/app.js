@@ -228,8 +228,13 @@ var options = {
     getValue: "name",
     //achieve better match.
     list: {
+        //auto match
         match: {
             enabled: true
+        },
+        //click on the list to trigger event
+        onClickEvent: function() {
+            viewModel.matchSearch();
         }
     }
 };
@@ -241,6 +246,14 @@ $("#search-box").easyAutocomplete(options);
 // This is a simple *viewmodel* - JavaScript that defines the data and behavior of your UI
 function AppViewModel() {
     var self = this;
+    //search box value set
+    this.companyName = ko.observable("");
+    this.check = function(data,e) {
+        if(e.keyCode === 13){
+            console.log(e.keyCode);
+        }
+    }
+
 
     //save companyList data into an observable array
     this.companyArray = ko.observableArray([]);
@@ -261,13 +274,17 @@ function AppViewModel() {
     this.companyArray().forEach(function(company){
         company.shouldShowMessage = ko.observable(true);
     });
+
     //function to search matched result
     //this function is attacted to viewModel
     this.matchSearch = function() {
         var searchName = $("#search-box").val();
+
+        //come back to the company list status
+        this.showAllListAndMarker();
+
+        //loop through the list to find out the matched one
         this.companyArray().forEach(function(company){
-            company.shouldShowMessage(true);
-            company.marker.setMap(map);
             //if the search name does not match list name,
             //hide list/marker
             if(company.name !== searchName){
