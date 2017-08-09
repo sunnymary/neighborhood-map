@@ -127,7 +127,8 @@ function createCompanyInfoSection(company){
 function createJobDetailSection(company){
     //insert title for job list section
     var companyTitle = "<h3 class='job-list-title'>Jobs in " + company.name +"</h3>";
-    $(".job-list-container").prepend(companyTitle);
+    var errorMessageIndeed = "<p class='error-indeed'></p>"
+    $(".job-list-container").prepend(companyTitle, errorMessageIndeed);
 }
 
 //use google place API to get company detail information
@@ -220,6 +221,7 @@ function processIndeedAPI(company){
 
       error: function() {
         // handle an error response.
+        $(".error-indeed").text("Cannot load. An ERROR has occurred...");
       }
     });
 }
