@@ -97,6 +97,11 @@ function resetMap(){
     map.setZoom(10);
 }
 
+//function to clear no match message under company search list
+function clearNoMatchMessage(){
+    $(".message").remove();
+}
+
 //function to clear company list, previous company info title/job list title
 //this function is used in marker/list click event
 function clearListPanel(){
@@ -288,15 +293,26 @@ function AppViewModel() {
         this.hideAllListAndMarker();
         //reset map to its original scale;
         resetMap();
+
+        //set an indicator to see if there is any match.
+        //the no match found, value = false
+        //if one match found, value = true
+        var checkShow = false;
         //loop through the list to find out the matched one
         this.companyArray().forEach(function(company){
-            //if the search name does not match list name,
-            //hide list/marker
+            //if the search name match list name,
+            //show list/marker
             if(company.name === searchName){
                company.shouldShowMessage(true);
                company.marker.setMap(map);
+               checkShow = true;
             }
         });
+
+        if(checkShow === false){
+            var noMatchMessageTag = "<p class='message'>Sorry, No Match found...</p>";
+            $(".company-list-container").append(noMatchMessageTag);
+        }
     };
 
     //function to show company list and remove job list
@@ -312,10 +328,15 @@ function AppViewModel() {
     //show all the list/marker
     //this function is attacted to viewModel
     this.showAllListAndMarker = function(){
+        //set the value of search box to be blank
+        this.companySearch("");
         //show the company list DOM element
         this.showCompanyListDOM();
         //reset map to initial bounds
         resetMap();
+        //clear no match message
+        clearNoMatchMessage();
+
         //this shows the list/markers
         this.companyArray().forEach(function(company){
             //show all the lists
@@ -328,6 +349,9 @@ function AppViewModel() {
     //hide all the list/marker
     //use in marker click event/showDetail function
     this.hideAllListAndMarker = function(){
+        //clear no match message
+        clearNoMatchMessage();
+
         this.companyArray().forEach(function(company){
             //hide all the lists
             company.shouldShowMessage(false);
