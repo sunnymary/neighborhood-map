@@ -58,7 +58,7 @@ function initMap() {
             map.setZoom(14);
             map.setCenter(company);
             //hide all lists and markers
-            viewModel.hideAllMarker();
+            viewModel.hideAllListAndMarker();
             //show the marker of this element
             marker.setMap(map);
             clearListPanel();
@@ -232,8 +232,12 @@ var options = {
         match: {
             enabled: true
         },
-        //click on the list to trigger event
+        //click on a list item to trigger event
         onClickEvent: function() {
+            viewModel.matchSearch();
+        },
+        //enter on a list item to trigger event
+        onKeyEnterEvent: function() {
             viewModel.matchSearch();
         }
     }
@@ -247,10 +251,11 @@ $("#search-box").easyAutocomplete(options);
 function AppViewModel() {
     var self = this;
     //search box value set
-    this.companyName = ko.observable("");
-    this.check = function(data,e) {
+    this.companySearch = ko.observable("");
+
+    this.onEnter = function(data,e) {
         if(e.keyCode === 13){
-            console.log(e.keyCode);
+            this.matchSearch();
         }
     }
 
@@ -279,17 +284,17 @@ function AppViewModel() {
     //this function is attacted to viewModel
     this.matchSearch = function() {
         var searchName = $("#search-box").val();
-
         //come back to the company list status
-        this.showAllListAndMarker();
-
+        this.hideAllListAndMarker();
+        //reset map to its original scale;
+        resetMap();
         //loop through the list to find out the matched one
         this.companyArray().forEach(function(company){
             //if the search name does not match list name,
             //hide list/marker
-            if(company.name !== searchName){
-               company.shouldShowMessage(false);
-               company.marker.setMap(null);
+            if(company.name === searchName){
+               company.shouldShowMessage(true);
+               company.marker.setMap(map);
             }
         });
     };
@@ -321,15 +326,19 @@ function AppViewModel() {
     };
 
     //hide all the list/marker
-    //use in showDetail function
-    this.hideAllMarker = function(){
+    //use in marker click event/showDetail function
+    this.hideAllListAndMarker = function(){
         this.companyArray().forEach(function(company){
+            //hide all the lists
+            company.shouldShowMessage(false);
             //hide all the markers
             company.marker.setMap(null);
         });
     }
 
+
     //click on the list to show its detail information
+    //trigger marker click event to achieve
     this.showDetail = function(company){
         //trigger click event for marker
         triggerMarkerClick(company);

@@ -12,8 +12,9 @@
     <div class="list-view">
         <h2>Company Master</h2>
         <div class="search">
-           <!--  <input id="search-box" data-bind="value:companyName, valueUpdate:'afterkeydown',event: { keypress: check }" type="text" name="search-box" placeholder="Enter Key Word Here ..." /> -->
-            <input id="search-box" type="text" name="search-box" placeholder="Enter Key Word Here ..." />
+            <!-- search box: link value to viewModel, press enter key to match search -->
+            <input id="search-box" data-bind="textInput: companySearch,  event: { keyup: onEnter }" type="text" name="search-box" placeholder="Enter Key Word Here ..." />
+
             <button data-bind="click:matchSearch">Search</button>
             <button data-bind="click:showAllListAndMarker">Show All</button>
         </div>
