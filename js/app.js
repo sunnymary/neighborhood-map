@@ -156,7 +156,12 @@ function processGooglePlaceAPI(company){
         query: company.queryName
     };
     var placeService = new google.maps.places.PlacesService(map);
-    placeService.textSearch(searchRequest, function(data){
+    placeService.textSearch(searchRequest, function(data, status){
+        //error handling for google place api place search
+        if (status !== google.maps.places.PlacesServiceStatus.OK) {
+            console.error(status);
+            return;
+        }
         var placeId = data[0].place_id;
 
         //2. use placeId to get place detail
@@ -164,7 +169,12 @@ function processGooglePlaceAPI(company){
         var detailRequest = {
             placeId:placeId
         };
-        placeService.getDetails(detailRequest,function(detailData){
+        placeService.getDetails(detailRequest,function(detailData,status){
+            //error handling for google place api place detail
+            if (status !== google.maps.places.PlacesServiceStatus.OK) {
+                console.error(status);
+                return;
+            }
             var website = detailData.website;
             var phone = detailData.formatted_phone_number;
             var rating = detailData.rating;
@@ -181,7 +191,7 @@ function processGooglePlaceAPI(company){
             //some data don't have website
             //include website tag if it has one.
             if(website){
-                var websiteTag = "<a href='" + website + "'>Go to Website</p>";
+                var websiteTag = "<a href='" + website + "' target='_blank'>Go to Website</p>";
                 $(".company-info").append(websiteTag);
             }
 
@@ -231,7 +241,7 @@ function processIndeedAPI(company){
             var jobTitleTag = "<h4> Job Title: "+ jobTitle +"</h4>";
             var jobDetailTag = "<p>" + jobCompany + " - " + jobLocation + ", " +jobDate + "</p>"
             var jobDescriptionTag = "<p>Description:"+ jobSnippet +"</p>";
-            var jobLinkTag = "<a href='"+ jobURL +"'>Link to Job</a>";
+            var jobLinkTag = "<a href='"+ jobURL +"' target='_blank'>Link to Job</a>";
 
             //append DOM to the app
             $(".job-list").append("<li></li>");
