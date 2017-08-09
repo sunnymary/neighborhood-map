@@ -24,7 +24,10 @@
                 <li data-bind="text: name, event: {mouseover: $parent.enableInfowindow, mouseout: $parent.disableInfowindow}, visible: shouldShowMessage, click: $parent.showDetail"></li>
             </ul>
         </div>
-        <div class="company-info-container"></div>
+        <div class="company-info-container">
+            <div class="company-info"></div>
+            <button class="show-job-list" data-bind="text:buttonName, click:toggleJobList, visible: shouldShowButton"></button>
+        </div>
         <div class="job-list-container">
             <ul class="job-list"></ul>
         </div>

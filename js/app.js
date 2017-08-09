@@ -62,10 +62,15 @@ function initMap() {
             //show the marker of this element
             marker.setMap(map);
             clearListPanel();
+            //create company Info Panel
             createCompanyInfoSection(company);
             processGooglePlaceAPI(company);
+            viewModel.shouldShowButton(true);
+
+            //create and hide job list panel
             createJobDetailSection(company);
             processIndeedAPI(company);
+            hideJobList();
         });
     });
 
@@ -90,11 +95,26 @@ function triggerMarkerClick(data) {
     new google.maps.event.trigger(data.marker, 'click');
 }
 
+function hideJobList(){
+    $(".job-list-container").hide();
+}
+
+function showJobList(){
+    $(".job-list-container").show();
+}
+
 //function to reset map to its original scale and center
 function resetMap(){
     var fortWorth = {lat: 32.7554883,lng: -97.3307658};
     map.setCenter(fortWorth);
     map.setZoom(10);
+}
+
+//function to reset show job button under company info section
+function resetShowJobButton(){
+    //reset the initial status of button text and visibility
+    viewModel.shouldShowButton(false);
+    viewModel.buttonName("Show Jobs");
 }
 
 //function to clear no match message under company search list
@@ -108,7 +128,7 @@ function clearListPanel(){
     //hide company-list section
     $(".company-list-container").hide();
     //remove the previous company info
-    $(".company-info-container").children().remove();
+    $(".company-info").children().remove();
     //remove the previous job list title
     $(".job-list-title").remove();
 }
@@ -116,19 +136,11 @@ function clearListPanel(){
 //function to create Company info card
 //this function is used in marker/list click event
 function createCompanyInfoSection(company){
+    //create title section
     var companyTitleTag = "<h3 class='company-info-title'>" + company.name +"</h3>";
     var companyAddressTag = "<p>Address: " + company.headquarterAddress + "</p>";
     var employmentTag = "<p>Employment: " + company.employment + "</p>";
-    $(".company-info-container").append(companyTitleTag, companyAddressTag, employmentTag);
-}
-
-//function to hide company list and create job list section
-//this function is used in marker/list click event
-function createJobDetailSection(company){
-    //insert title for job list section
-    var companyTitle = "<h3 class='job-list-title'>Jobs in " + company.name +"</h3>";
-    var errorMessageIndeed = "<p class='error-indeed'></p>"
-    $(".job-list-container").prepend(companyTitle, errorMessageIndeed);
+    $(".company-info").append(companyTitleTag, companyAddressTag, employmentTag)
 }
 
 //use google place API to get company detail information
@@ -153,7 +165,6 @@ function processGooglePlaceAPI(company){
             placeId:placeId
         };
         placeService.getDetails(detailRequest,function(detailData){
-            console.log(detailData);
             var website = detailData.website;
             var phone = detailData.formatted_phone_number;
             var rating = detailData.rating;
@@ -161,21 +172,30 @@ function processGooglePlaceAPI(company){
 
             //include the data into DOM
             var photoTag = "<img src='" + photoURL + "' alt='company photo'>";
-            $(".company-info-container").prepend(photoTag);
+            $(".company-info").prepend(photoTag);
 
             var phoneTag = "<p>Phone Number: " + phone + "</p>";
             var ratingTag = "<p>Rating: " + rating + "</p>";
-            $(".company-info-container").append(phoneTag,ratingTag);
+            $(".company-info").append(phoneTag,ratingTag);
 
             //some data don't have website
             //include website tag if it has one.
             if(website){
                 var websiteTag = "<a href='" + website + "'>Go to Website</p>";
-                $(".company-info-container").append(websiteTag);
+                $(".company-info").append(websiteTag);
             }
 
         })
     });
+}
+
+//function to hide company list and create job list section
+//this function is used in marker/list click event
+function createJobDetailSection(company){
+    //insert title for job list section
+    var companyTitle = "<h3 class='job-list-title'>Jobs in " + company.name +"</h3>";
+    var errorMessageIndeed = "<p class='error-indeed'></p>"
+    $(".job-list-container").prepend(companyTitle, errorMessageIndeed);
 }
 
 //function to request, get and process data from indeed api
@@ -221,7 +241,7 @@ function processIndeedAPI(company){
 
       error: function() {
         // handle an error response.
-        $(".error-indeed").text("Cannot load. An ERROR has occurred...");
+        $(".error-indeed").text("Cannot load Jobs. An ERROR has occurred...");
       }
     });
 }
@@ -291,10 +311,14 @@ function AppViewModel() {
     //this function is attacted to viewModel
     this.matchSearch = function() {
         var searchName = $("#search-box").val();
+        //show the company list DOM element
+        this.showCompanyListDOM();
         //come back to the company list status
         this.hideAllListAndMarker();
         //reset map to its original scale;
         resetMap();
+        //reset show job button to its original status
+        resetShowJobButton();
 
         //set an indicator to see if there is any match.
         //the no match found, value = false
@@ -322,7 +346,7 @@ function AppViewModel() {
         //clear job list and title
         $(".job-list li,.job-list-title").remove();
         //clear company info section
-        $(".company-info-container").children().remove();
+        $(".company-info").children().remove();
         //show company list
         $(".company-list-container").show();
     }
@@ -368,6 +392,21 @@ function AppViewModel() {
     this.showDetail = function(company){
         //trigger click event for marker
         triggerMarkerClick(company);
+    }
+
+    //control button to show/hide job lists
+    //set the initial status of button text and visibility
+    this.shouldShowButton = ko.observable(false);
+    this.buttonName = ko.observable("Show Jobs");
+    //add toggle function to the button
+    this.toggleJobList = function(company){
+        if(this.buttonName()==="Show Jobs"){
+            showJobList();
+            this.buttonName("Hide Jobs");
+        } else {
+            hideJobList();
+            this.buttonName("Show Jobs");
+        }
     }
 }
 
