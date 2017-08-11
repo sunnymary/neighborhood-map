@@ -8,13 +8,15 @@
     <!-- jQuery autocomplete plugin - source: http://easyautocomplete.com/guide -->
     <link rel="stylesheet" href="node_modules/easy-autocomplete/dist/easy-autocomplete.min.css">
     <!-- include bootstrap -->
-    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
+   <!--  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
 
 </head>
 <body>
+    <header>
+        <h1 class="title">Company Master</h1>
+    </header>
     <main>
         <div class="list-view">
-            <h2>Company Master</h2>
             <div class="search">
                 <!-- search box: link value to viewModel, press enter key to match search -->
                 <input id="search-box" data-bind="textInput: companySearch,  event: { keyup: onEnter }" type="text" name="search-box" placeholder="Enter Key Word Here ..." />

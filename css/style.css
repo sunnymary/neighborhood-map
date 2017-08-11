@@ -1,6 +1,28 @@
 
+body {
+    margin: 0;
+    font-family: arial;
+}
+
 * {
     box-sizing: border-box;
+}
+
+header {
+    border-bottom:  lightgrey 1px solid;
+    width: 100vw;
+    height: 50px;
+    padding: 15px 15px 10px 15px;
+    /* the proper shadow code is found at: https://stackoverflow.com/questions/3971880/how-to-make-shadow-on-border-bottom*/
+    box-shadow: 0 4px 6px -6px #222;
+}
+
+.title {
+    margin-top: 0;
+    margin-bottom: 0;
+    text-transform: uppercase;
+    font-size: 1.2em;
+    color: #d0e266;
 }
 
 main {
@@ -9,15 +31,15 @@ main {
 
 .list-view {
     width: 40%;
-    order: 2;
+    order: 1;
 }
 
 .map-view {
     width: 60%;
-    top: 0;
     right: 0;
-    order: 3;
+    order: 2;
     position: fixed;
+    z-index: -1;
 }
 
 #map {
