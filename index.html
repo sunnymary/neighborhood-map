@@ -2,42 +2,45 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Neighborhood Map</title>
     <link rel="stylesheet" href="css/style.css">
     <!-- jQuery autocomplete plugin - source: http://easyautocomplete.com/guide -->
     <link rel="stylesheet" href="node_modules/easy-autocomplete/dist/easy-autocomplete.min.css">
     <!-- include bootstrap -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
 
 </head>
 <body>
-    <div class="list-view">
-        <h2>Company Master</h2>
-        <div class="search">
-            <!-- search box: link value to viewModel, press enter key to match search -->
-            <input id="search-box" data-bind="textInput: companySearch,  event: { keyup: onEnter }" type="text" name="search-box" placeholder="Enter Key Word Here ..." />
+    <main>
+        <div class="list-view">
+            <h2>Company Master</h2>
+            <div class="search">
+                <!-- search box: link value to viewModel, press enter key to match search -->
+                <input id="search-box" data-bind="textInput: companySearch,  event: { keyup: onEnter }" type="text" name="search-box" placeholder="Enter Key Word Here ..." />
 
-            <button data-bind="click:matchSearch">Search</button>
-            <button data-bind="click:showAllListAndMarker">Show All</button>
+                <button data-bind="click:matchSearch">Search</button>
+                <button data-bind="click:showAllListAndMarker">Show All</button>
+            </div>
+            <div class="company-list-container">
+                <h3>Company List</h3>
+                <ul class="company-list" data-bind="foreach: companyArray">
+                    <li data-bind="text: name, event: {mouseover: $parent.enableInfowindow, mouseout: $parent.disableInfowindow}, visible: shouldShowMessage, click: $parent.showDetail"></li>
+                </ul>
+            </div>
+            <div class="company-info-container">
+                <div class="company-info"></div>
+                <button class="show-job-list" data-bind="text:buttonName, click:toggleJobList, visible: shouldShowButton"></button>
+            </div>
+            <div class="job-list-container">
+                <ul class="job-list"></ul>
+            </div>
         </div>
-        <div class="company-list-container">
-            <h3>Company List</h3>
-            <ul class="company-list" data-bind="foreach: companyArray">
-                <li data-bind="text: name, event: {mouseover: $parent.enableInfowindow, mouseout: $parent.disableInfowindow}, visible: shouldShowMessage, click: $parent.showDetail"></li>
-            </ul>
-        </div>
-        <div class="company-info-container">
-            <div class="company-info"></div>
-            <button class="show-job-list" data-bind="text:buttonName, click:toggleJobList, visible: shouldShowButton"></button>
-        </div>
-        <div class="job-list-container">
-            <ul class="job-list"></ul>
-        </div>
-    </div>
 
-    <div class="map-view">
-        <div id="map"></div>
-    </div>
+        <div class="map-view">
+            <div id="map"></div>
+        </div>
+    </main>
 
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js'></script>

@@ -1,17 +1,26 @@
 
-body {
+* {
+    box-sizing: border-box;
+}
+
+main {
     display: flex;
+}
+
+.list-view {
+    width: 40%;
+    order: 2;
+}
+
+.map-view {
+    width: 60%;
+    top: 0;
+    right: 0;
+    order: 3;
+    position: fixed;
 }
 
 #map {
     height: 100vh;
     width: 100%;
-}
-
-.list-view {
-    width: 30%;
-}
-
-.map-view {
-    width: 70%;
 }
