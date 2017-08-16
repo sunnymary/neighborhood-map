@@ -9,12 +9,17 @@ body {
 }
 
 header {
-    border-bottom:  lightgrey 1px solid;
+    overflow: hidden;
     width: 100vw;
     height: 50px;
     padding: 15px 15px 10px 15px;
+    border-bottom:  lightgrey 1px solid;
     /* the proper shadow code is found at: https://stackoverflow.com/questions/3971880/how-to-make-shadow-on-border-bottom*/
     box-shadow: 0 4px 6px -6px #222;
+    z-index: 10;
+    top: 0;
+    position: fixed;
+    background-color: white;
 }
 
 .title {
@@ -22,16 +27,66 @@ header {
     margin-bottom: 0;
     text-transform: uppercase;
     font-size: 1.2em;
-    color: #d0e266;
+    color: #b7e51d;
 }
 
 main {
+    margin-top: 50px;
     display: flex;
+    z-index: 5;
 }
 
 .list-view {
     width: 40%;
+    min-height: 100vh;
     order: 1;
+    border-right:  lightgrey 1px solid;
+    box-shadow: 4px -4px 6px -6px #222;
+    z-index: 2;
+}
+
+.search {
+    padding: 15px;
+    display: flex;
+    border-bottom:  lightgrey 1px solid;
+    box-shadow: 0 4px 6px -6px #222;
+
+}
+
+.btn {
+    background-color: #b7e51d;
+    color: white;
+    font-size: 1.1em;
+    border: 1px solid white;
+    border-radius: 5px;
+    padding: 5px;
+    margin-left: 15px;
+    white-space: nowrap
+}
+
+.btn:hover {
+    cursor: pointer;
+    background-color: white;
+    border: #b7e51d 1px solid;
+    color: #b7e51d;
+}
+
+.btn:focus {
+    outline: none;
+}
+
+#search-box {
+    width: 280px;
+    height: 32px;
+    font-size: 1.1em;
+}
+
+#search-box:hover {
+    cursor: pointer;
+}
+
+#search-box:focus {
+    outline-color: #b7e51d;
 }
 
 .map-view {
@@ -39,7 +94,7 @@ main {
     right: 0;
     order: 2;
     position: fixed;
-    z-index: -1;
+    z-index: 1;
 }
 
 #map {

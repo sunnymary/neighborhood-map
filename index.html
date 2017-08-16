@@ -21,8 +21,8 @@
                 <!-- search box: link value to viewModel, press enter key to match search -->
                 <input id="search-box" data-bind="textInput: companySearch,  event: { keyup: onEnter }" type="text" name="search-box" placeholder="Enter Key Word Here ..." />
 
-                <button data-bind="click:matchSearch">Search</button>
-                <button data-bind="click:showAllListAndMarker">Show All</button>
+                <button class="btn" data-bind="click:matchSearch">Search</button>
+                <button class="btn" data-bind="click:showAllListAndMarker">Show All</button>
             </div>
             <div class="company-list-container">
                 <h3>Company List</h3>
@@ -32,7 +32,7 @@
             </div>
             <div class="company-info-container">
                 <div class="company-info"></div>
-                <button class="show-job-list" data-bind="text:buttonName, click:toggleJobList, visible: shouldShowButton"></button>
+                <button class="show-job-list btn" data-bind="text:buttonName, click:toggleJobList, visible: shouldShowButton"></button>
             </div>
             <div class="job-list-container">
                 <ul class="job-list"></ul>
