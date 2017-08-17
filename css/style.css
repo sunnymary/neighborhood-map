@@ -30,6 +30,10 @@ header {
     color: #b7e51d;
 }
 
+.title:hover {
+    cursor: pointer;
+}
+
 main {
     margin-top: 50px;
     display: flex;
@@ -38,7 +42,7 @@ main {
 
 .list-view {
     width: 40%;
-    min-height: 100vh;
+    min-height: calc(100vh - 100px);
     order: 1;
     border-right:  lightgrey 1px solid;
     box-shadow: 4px -4px 6px -6px #222;
@@ -50,11 +54,14 @@ main {
     display: flex;
     border-bottom:  lightgrey 1px solid;
     box-shadow: 0 4px 6px -6px #222;
-
+    position: fixed;
+    height: 62px;
+    background-color: white;
+    width: 39.9%;
 }
 
 .btn {
-    background-color: #b7e51d;
+    background-color: #a6c63b;
     color: white;
     font-size: 1.1em;
     border: 1px solid white;
@@ -67,8 +74,8 @@ main {
 .btn:hover {
     cursor: pointer;
     background-color: white;
-    border: #b7e51d 1px solid;
-    color: #b7e51d;
+    border: #a6c63b 1px solid;
+    color: #a6c63b;
 }
 
 .btn:focus {
@@ -81,12 +88,44 @@ main {
     font-size: 1.1em;
 }
 
-#search-box:hover {
-    cursor: pointer;
-}
-
 #search-box:focus {
     outline-color: #b7e51d;
+}
+
+.company-list-container {
+    margin-top: 100px;
+}
+
+.company-list-title {
+    padding-left: 15px;
+}
+
+.note {
+    padding: 10px 15px 30px 15px;
+    font-size: 14px;
+    color: #999;
+}
+
+.note strong {
+    text-transform: uppercase;
+    color: #b7e51d;
+    font-weight: normal;
+}
+
+.company-list {
+    list-style: none;
+    padding-left: 0;
+}
+
+.company-list li {
+    padding-left: 15px;
+    border-top: 1px lightgrey solid;
+    padding: 20px;
+}
+
+.company-list li:hover {
+    cursor: pointer;
+    color: #b7e51d;
 }
 
 .map-view {
@@ -98,6 +137,17 @@ main {
 }
 
 #map {
-    height: 100vh;
+    height: calc(100vh - 50px);
     width: 100%;
+}
+
+.footer-note {
+    font-size: 12px;
+    color: white;
+    background-color: #b7e51d;
+    margin: 0;
+    padding: 15px 5px 20px 5px;
+    text-align: center;
+    height: 50px;
+    width: 40%;
 }

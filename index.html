@@ -13,7 +13,7 @@
 </head>
 <body>
     <header>
-        <h1 class="title">Company Master</h1>
+        <h1 class="title" data-bind="click:showAllListAndMarker">Company Master</h1>
     </header>
     <main>
         <div class="list-view">
@@ -25,9 +25,18 @@
                 <button class="btn" data-bind="click:showAllListAndMarker">Show All</button>
             </div>
             <div class="company-list-container">
-                <h3>Company List</h3>
+                <div class="company-list-header">
+                    <h3 class="company-list-title">Company List in Fort Worth Metro Area</h3>
+                    <p class="note">Any <strong>big companys</strong> in your neighbourhood? This is a list of companies with major employment(3000+) in Fort Worth metro area. It is sorted by employment number.</p>
+                </div>
+
                 <ul class="company-list" data-bind="foreach: companyArray">
-                    <li data-bind="text: name, event: {mouseover: $parent.enableInfowindow, mouseout: $parent.disableInfowindow}, visible: shouldShowMessage, click: $parent.showDetail"></li>
+                    <li data-bind="event: {mouseover: $parent.enableInfowindow, mouseout: $parent.disableInfowindow}, visible: shouldShowMessage, click: $parent.showDetail">
+                        <span data-bind="text: name"></span>
+                        (
+                        <span data-bind="text: employment"></span>
+                        employers )
+                    </li>
                 </ul>
             </div>
             <div class="company-info-container">
@@ -43,6 +52,7 @@
             <div id="map"></div>
         </div>
     </main>
+    <p class="footer-note">©2017 Designed and Developed by Miaoyun Zhou</p>
 
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js'></script>

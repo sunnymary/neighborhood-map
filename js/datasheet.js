@@ -27,6 +27,15 @@ var companyList = [
     "lng": -97.444801
   },
   {
+    "name": "Texas Health Resources",
+    "queryName": "Texas Health Resources",
+    "location": "Arlington",
+    "employment": 12000,
+    "headquarterAddress": "612 E Lamar Blvd, Arlington, TX 76011",
+    "lat": 32.76317,
+    "lng": -97.103408
+  },
+  {
     "name": "NAS - Fort Worth - JRB",
     "queryName": "NAS - Fort Worth - JRB",
     "location": "Fort Worth",
@@ -178,14 +187,5 @@ var companyList = [
     "headquarterAddress": "3100 W 7th St #500, Fort Worth, TX 76107",
     "lat": 32.7515,
     "lng": -97.362417
-  },
-  {
-    "name": "Texas Health Resources",
-    "queryName": "Texas Health Resources",
-    "location": "Arlington",
-    "employment": 12000,
-    "headquarterAddress": "612 E Lamar Blvd, Arlington, TX 76011",
-    "lat": 32.76317,
-    "lng": -97.103408
   }
 ]

@@ -452,6 +452,8 @@ function AppViewModel() {
         resetMap();
         //clear no match message
         clearNoMatchMessage();
+        //reset show job button
+        resetShowJobButton();
 
         //this shows the list/markers
         this.companyArray().forEach(function(company){
