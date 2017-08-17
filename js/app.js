@@ -265,7 +265,7 @@ function processGooglePlaceAPI(company){
             $(".company-info").prepend(photoTag);
 
             var phoneTag = "<p>Phone Number: " + phone + "</p>";
-            var ratingTag = "<p>Rating: " + rating + "</p>";
+            var ratingTag = "<p>Rating: " + rating + "/5</p>";
             $(".company-info").append(phoneTag,ratingTag);
 
             //some data don't have website

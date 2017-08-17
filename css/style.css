@@ -128,6 +128,23 @@ main {
     color: #b7e51d;
 }
 
+.company-info {
+    background-color: #e5f2bc;
+    margin: 80px 15px 20px 15px;
+    border-radius: 15px;
+    padding: 15px;
+}
+
+.company-info img {
+    width: 100%;
+    max-height: 400px;
+
+}
+
+.show-job-list {
+    margin-bottom: 30px;
+}
+
 .map-view {
     width: 60%;
     right: 0;
@@ -144,7 +161,7 @@ main {
 .footer-note {
     font-size: 12px;
     color: white;
-    background-color: #b7e51d;
+    background-color: #555;
     margin: 0;
     padding: 15px 5px 20px 5px;
     text-align: center;
