@@ -318,10 +318,10 @@ function processIndeedAPI(company){
             var jobDate = data.results[i].formattedRelativeTime;
 
             //form DOM element
-            var jobTitleTag = "<h4> Job Title: "+ jobTitle +"</h4>";
-            var jobDetailTag = "<p>" + jobCompany + " - " + jobLocation + ", " +jobDate + "</p>"
-            var jobDescriptionTag = "<p>Description:"+ jobSnippet +"</p>";
-            var jobLinkTag = "<a href='"+ jobURL +"' target='_blank'>Link to Job</a>";
+            var jobTitleTag = "<h4 class='job-title'>"+ jobTitle +"</h4>";
+            var jobDetailTag = "<p class='job-info'>" + jobCompany + " - " + jobLocation + ", " +jobDate + "</p>"
+            var jobDescriptionTag = "<p class='job-description'>Description:"+ jobSnippet +"</p>";
+            var jobLinkTag = "<a href='"+ jobURL +"' target='_blank'>Link to Jobs</a>";
 
             //append DOM to the app
             $(".job-list").append("<li></li>");

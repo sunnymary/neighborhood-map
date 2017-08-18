@@ -133,16 +133,57 @@ main {
     margin: 80px 15px 20px 15px;
     border-radius: 15px;
     padding: 15px;
+    box-shadow: 2px 2px 10px 2px #bbb;
 }
 
 .company-info img {
     width: 100%;
     max-height: 400px;
+}
 
+.company-info a {
+    color:  #a6c63b;
 }
 
 .show-job-list {
     margin-bottom: 30px;
+}
+
+.job-list-title {
+    padding-left: 15px;
+}
+
+.job-list {
+    list-style: none;
+    padding: 15px;
+}
+
+.job-list li {
+    border: 1px lightgrey solid;
+    padding: 15px;
+    margin-bottom: 15px;
+    box-shadow: 1px 1px 5px 1px #bbb;
+}
+
+.job-title {
+    color: #b7e51d;
+    font-weight: normal;
+    font-size: 1.1em;
+    margin-top: 0;
+}
+
+.job-info {
+    color: #999;
+    font-size: 0.8em;
+}
+
+.job-description {
+    font-size:  0.9em;
+}
+
+.job-list li a {
+    color: #a6c63b;
+    font-size:  0.8em;
 }
 
 .map-view {
