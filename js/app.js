@@ -142,6 +142,8 @@ function initMap() {
             //show the marker of this element
             marker.setMap(map);
             clearListPanel();
+            //show company info section
+            showCompanyInfo();
             //create company Info Panel
             createCompanyInfoSection(company);
             processGooglePlaceAPI(company);
@@ -225,8 +227,8 @@ function clearListPanel(){
     $(".company-list-container").hide();
     //remove the previous company info
     $(".company-info").children().remove();
-    //remove the previous job list title
-    $(".job-list-title").remove();
+    //remove the previous job list title and error message
+    $(".job-list-title,.error-indeed").remove();
 }
 
 //function to create Company info card
@@ -450,8 +452,8 @@ function AppViewModel() {
 
     //function to show company list and remove job list
     this.showCompanyListDOM = function(){
-        //clear job list and title
-        $(".job-list li,.job-list-title").remove();
+        //clear job list, title and error message
+        $(".job-list li,.job-list-title,.error-indeed").remove();
         //clear company info section
         $(".company-info").children().remove();
         //show company list

@@ -128,6 +128,11 @@ main {
     color: #b7e51d;
 }
 
+.message {
+    color: coral;
+    padding-left: 15px;
+}
+
 .company-info {
     background-color: #e5f2bc;
     margin: 80px 15px 20px 15px;
@@ -150,6 +155,11 @@ main {
 }
 
 .job-list-title {
+    padding-left: 15px;
+}
+
+.error-indeed {
+    color: coral;
     padding-left: 15px;
 }
 
