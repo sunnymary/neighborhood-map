@@ -219,3 +219,53 @@ main {
     height: 50px;
     width: 40%;
 }
+
+@media screen and (max-width: 1200px) {
+    .search {
+        height: 105px;
+        flex-wrap: wrap;
+        margin:0 auto;
+        padding-bottom: 10px;
+    }
+
+    .easy-autocomplete {
+        width: 100%;
+    }
+
+    #search-box {
+        display: block;
+    }
+
+    .search .btn {
+        height: 32px;
+        width: 130px;
+        margin-left: 0;
+        margin-right: 20px;
+    }
+
+    .search .show-all-btn {
+        margin-right: 0;
+    }
+
+    .company-list-container {
+        margin-top: 140px;
+    }
+}
+
+@media screen and (max-width: 850px) {
+    .list-view {
+        width: 45%;
+    }
+
+    .map-view {
+        width: 55%;
+    }
+
+    .search {
+        width: 44.9%;
+    }
+
+    .footer-note {
+        width: 45%;
+    }
+}

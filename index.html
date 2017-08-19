@@ -21,8 +21,8 @@
                 <!-- search box: link value to viewModel, press enter key to match search -->
                 <input id="search-box" data-bind="textInput: companySearch,  event: { keyup: onEnter }" type="text" name="search-box" placeholder="Enter Key Word Here ..." />
 
-                <button class="btn" data-bind="click:matchSearch">Search</button>
-                <button class="btn" data-bind="click:showAllListAndMarker">Show All</button>
+                <button class="btn search-btn" data-bind="click:matchSearch">Search</button>
+                <button class="btn show-all-btn" data-bind="click:showAllListAndMarker">Show All</button>
             </div>
             <div class="company-list-container">
                 <div class="company-list-header">

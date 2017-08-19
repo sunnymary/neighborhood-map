@@ -163,6 +163,7 @@ function initMap() {
     }
 }
 
+// initial page, hide some part in html
 function initPage() {
     hideCompanyInfo();
     hideJobList();
