@@ -20,6 +20,7 @@ header {
     top: 0;
     position: fixed;
     background-color: white;
+    display: flex;
 }
 
 .title {
@@ -28,10 +29,21 @@ header {
     text-transform: uppercase;
     font-size: 1.2em;
     color: #b7e51d;
+    width: 65%;
 }
 
 .title:hover {
     cursor: pointer;
+}
+
+.right-header {
+    width: 35%;
+}
+
+.view-change-btn {
+    float: right;
+    right: 0;
+    visibility: hidden;
 }
 
 main {
@@ -58,6 +70,7 @@ main {
     height: 62px;
     background-color: white;
     width: 39.9%;
+    z-index: 5;
 }
 
 .btn {
@@ -67,8 +80,6 @@ main {
     border: 1px solid white;
     border-radius: 5px;
     padding: 5px;
-    margin-left: 15px;
-    white-space: nowrap
 }
 
 .btn:hover {
@@ -80,6 +91,11 @@ main {
 
 .btn:focus {
     outline: none;
+}
+
+.search .btn {
+    margin-left: 15px;
+    white-space: nowrap;
 }
 
 #search-box {
@@ -152,6 +168,7 @@ main {
 
 .show-job-list {
     margin-bottom: 30px;
+    margin-left: 15px;
 }
 
 .job-list-title {
@@ -230,6 +247,7 @@ main {
 
     .easy-autocomplete {
         width: 100%;
+        display: block;
     }
 
     #search-box {
@@ -250,6 +268,10 @@ main {
     .company-list-container {
         margin-top: 140px;
     }
+
+    .company-info-container {
+        margin-top: 120px;
+    }
 }
 
 @media screen and (max-width: 850px) {
@@ -267,5 +289,36 @@ main {
 
     .footer-note {
         width: 45%;
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .search {
+        width: 100%;
+    }
+
+    .list-view {
+        width: 100%;
+        display: none;
+    }
+
+    .map-view {
+        top: 155px;
+        width: 100%;
+    }
+
+    .footer-note {
+        width: 100%;
+    }
+
+    .view-change-btn {
+        visibility: visible;
+        margin-top: -5px;
+    }
+}
+
+@media screen and (max-width: 350px) {
+    body {
+        font-size: 0.95em;
     }
 }

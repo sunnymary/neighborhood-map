@@ -14,16 +14,19 @@
 <body>
     <header>
         <h1 class="title" data-bind="click:showAllListAndMarker">Company Master</h1>
+        <div class="right-header">
+            <button class="view-change-btn btn" data-bind="click:changeViews, text:viewButtonName"></button>
+        </div>
     </header>
     <main>
-        <div class="list-view">
-            <div class="search">
-                <!-- search box: link value to viewModel, press enter key to match search -->
-                <input id="search-box" data-bind="textInput: companySearch,  event: { keyup: onEnter }" type="text" name="search-box" placeholder="Enter Key Word Here ..." />
+        <div class="search">
+            <!-- search box: link value to viewModel, press enter key to match search -->
+            <input id="search-box" data-bind="textInput: companySearch,  event: { keyup: onEnter }" type="text" name="search-box" placeholder="Enter Key Word Here ..." />
 
-                <button class="btn search-btn" data-bind="click:matchSearch">Search</button>
-                <button class="btn show-all-btn" data-bind="click:showAllListAndMarker">Show All</button>
-            </div>
+            <button class="btn search-btn" data-bind="click:matchSearch">Search</button>
+            <button class="btn show-all-btn" data-bind="click:showAllListAndMarker">Show All</button>
+        </div>
+        <div class="list-view">
             <div class="company-list-container">
                 <div class="company-list-header">
                     <h3 class="company-list-title">Company List in Fort Worth Metro Area</h3>
@@ -41,7 +44,7 @@
             </div>
             <div class="company-info-container">
                 <div class="company-info"></div>
-                <button class="show-job-list btn" data-bind="text:buttonName, click:toggleJobList, visible: shouldShowButton"></button>
+                <button class="show-job-list btn" data-bind="text:jobButtonName, click:toggleJobList, visible: shouldShowButton"></button>
             </div>
             <div class="job-list-container">
                 <ul class="job-list"></ul>

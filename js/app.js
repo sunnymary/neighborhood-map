@@ -213,7 +213,7 @@ function resetMap(){
 function resetShowJobButton(){
     //reset the initial status of button text and visibility
     viewModel.shouldShowButton(false);
-    viewModel.buttonName("Show Jobs");
+    viewModel.jobButtonName("Show Jobs");
 }
 
 //function to clear no match message under company search list
@@ -513,16 +513,32 @@ function AppViewModel() {
     //control button to show/hide job lists
     //set the initial status of button text and visibility
     this.shouldShowButton = ko.observable(false);
-    this.buttonName = ko.observable("Show Jobs");
+    this.jobButtonName = ko.observable("Show Jobs");
     //add toggle function to the button
     this.toggleJobList = function(company){
-        if(this.buttonName()==="Show Jobs"){
+        if(this.jobButtonName()==="Show Jobs"){
             showJobList();
-            this.buttonName("Hide Jobs");
+            this.jobButtonName("Hide Jobs");
         } else {
             hideJobList();
-            this.buttonName("Show Jobs");
+            this.jobButtonName("Show Jobs");
         }
+    }
+
+    //Map view/list view change button function
+    //set and store the initial button name
+    this.viewButtonName = ko.observable("List/Info View");
+    this.changeViews = function(){
+        if(this.viewButtonName()==="Map View"){
+            $(".list-view").hide();
+            $(".map-view").show();
+            this.viewButtonName("List/Info View");
+        } else {
+            $(".list-view").show();
+            $(".map-view").hide();
+            this.viewButtonName("Map View");
+        }
+
     }
 }
 
