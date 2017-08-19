@@ -161,6 +161,10 @@ function initMap() {
     }
 }
 
+function initPage() {
+    hideCompanyInfo();
+    hideJobList();
+}
 
 //functions to trigger marker events
 function triggerMarkerMouseover(data) {
@@ -175,12 +179,24 @@ function triggerMarkerClick(data) {
     new google.maps.event.trigger(data.marker, 'click');
 }
 
+//function to hide job list section
 function hideJobList(){
     $(".job-list-container").hide();
 }
 
+//function to show job list section
 function showJobList(){
     $(".job-list-container").show();
+}
+
+//function to hide company info section
+function hideCompanyInfo(){
+    $(".company-info-container").hide();
+}
+
+//function to show company info section
+function showCompanyInfo(){
+    $(".company-info-container").show();
 }
 
 //function to reset map to its original scale and center
@@ -376,7 +392,6 @@ function AppViewModel() {
         }
     }
 
-
     //save companyList data into an observable array
     this.companyArray = ko.observableArray([]);
     companyList.forEach(function(oneCompany) {
@@ -409,6 +424,8 @@ function AppViewModel() {
         resetMap();
         //reset show job button to its original status
         resetShowJobButton();
+        //hide company info section
+        hideCompanyInfo();
 
         //set an indicator to see if there is any match.
         //the no match found, value = false
@@ -454,6 +471,8 @@ function AppViewModel() {
         clearNoMatchMessage();
         //reset show job button
         resetShowJobButton();
+        //hide company info section
+        hideCompanyInfo();
 
         //this shows the list/markers
         this.companyArray().forEach(function(company){
@@ -484,6 +503,8 @@ function AppViewModel() {
     this.showDetail = function(company){
         //trigger click event for marker
         triggerMarkerClick(company);
+        //show company info section
+        showCompanyInfo();
     }
 
     //control button to show/hide job lists
@@ -506,3 +527,4 @@ var viewModel = new AppViewModel();
 
 // Activates knockout.js
 ko.applyBindings(viewModel);
+initPage();
