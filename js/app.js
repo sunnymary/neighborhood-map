@@ -322,7 +322,8 @@ function createJobDetailSection(company){
     //insert title for job list section
     var companyTitle = "<h3 class='job-list-title'>Jobs in " + company.name +"</h3>";
     var errorMessageIndeed = "<p class='error-indeed'></p>"
-    $(".job-list-container").prepend(companyTitle, errorMessageIndeed);
+    $(companyTitle).insertBefore("#indeed_at");
+    $(errorMessageIndeed).insertAfter("#indeed_at");
 }
 
 //function to request, get and process data from indeed api
