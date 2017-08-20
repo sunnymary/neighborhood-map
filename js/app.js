@@ -274,15 +274,30 @@ function processGooglePlaceAPI(company){
                 console.error(status);
                 return;
             }
+
             var website = detailData.website;
             var phone = detailData.formatted_phone_number;
             var rating = detailData.rating;
             var photoURL = detailData.photos[0].getUrl({'maxWidth': 300, 'maxHeight': 300});
+            var photoAttribtions = detailData.photos[0].html_attributions;
+
 
             //include the data into DOM
+            //add list of source
+            var attrList = "<ul class='attribution'>Source: </ul>";
+            $(".company-info").prepend(attrList);
+            photoAttribtions.forEach(function(photoAttr){
+                var attrTag = "<li>" + photoAttr + "</li>";
+                $(".company-info ul").append(attrTag);
+            });
+            //when click on the attribution link, open a new tab
+            $(".attribution a").attr("target","_blank");
+
+            //add photo
             var photoTag = "<img src='" + photoURL + "' alt='company photo'>";
             $(".company-info").prepend(photoTag);
 
+            //add phone number/rating
             var phoneTag = "<p>Phone Number: " + phone + "</p>";
             var ratingTag = "<p>Rating: " + rating + "/5</p>";
             $(".company-info").append(phoneTag,ratingTag);
@@ -294,6 +309,9 @@ function processGooglePlaceAPI(company){
                 $(".company-info").append(websiteTag);
             }
 
+            //add logo attribution
+            var attrLogoTag = "<img class='google-logo' src='./images/powered_by_google_on_white.png' alt='powered by google'>";
+            $(".company-info").append(attrLogoTag);
         })
     });
 }
@@ -429,6 +447,9 @@ function AppViewModel() {
         resetShowJobButton();
         //hide company info section
         hideCompanyInfo();
+        //hide job list section
+        hideJobList();
+
 
         //set an indicator to see if there is any match.
         //the no match found, value = false
@@ -476,6 +497,8 @@ function AppViewModel() {
         resetShowJobButton();
         //hide company info section
         hideCompanyInfo();
+        //hide job list section
+        hideJobList();
 
         //this shows the list/markers
         this.companyArray().forEach(function(company){

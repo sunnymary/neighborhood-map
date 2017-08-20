@@ -166,6 +166,23 @@ main {
     color:  #a6c63b;
 }
 
+.company-info .google-logo {
+    width: 144px;
+}
+
+.attribution {
+    text-align: right;
+    list-style: none;
+    font-size: 0.9em;
+    display: flex;
+    justify-content: flex-end;
+    padding-left: 0;
+}
+
+.attribution li {
+    padding-left: 10px;
+}
+
 .show-job-list {
     margin-bottom: 30px;
     margin-left: 15px;
