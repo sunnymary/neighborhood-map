@@ -180,6 +180,11 @@ main {
     padding-left: 15px;
 }
 
+#indeed_at a {
+    color: #a6c63b;
+    padding-left: 20px;
+}
+
 .job-list {
     list-style: none;
     padding: 15px;
@@ -317,8 +322,16 @@ main {
     }
 }
 
-@media screen and (max-width: 350px) {
+@media screen and (max-width: 400px) {
     body {
         font-size: 0.95em;
     }
 }
+
+@media screen and (max-width: 350px) {
+    .view-change-btn {
+        font-size: 0.95em;
+        margin-top: -3px;
+    }
+}
+
