@@ -117,7 +117,7 @@ main {
 }
 
 .note {
-    padding: 10px 15px 30px 15px;
+    padding: 10px 15px 10px 15px;
     font-size: 14px;
     color: #999;
 }
@@ -126,6 +126,17 @@ main {
     text-transform: uppercase;
     color: #b7e51d;
     font-weight: normal;
+}
+
+.source {
+    color: #555;
+    font-size: 0.8em;
+    padding-left: 15px;
+    padding-bottom: 20px;
+}
+
+.link {
+    color: #a6c63b;
 }
 
 .company-list {
@@ -259,6 +270,7 @@ main {
     width: 40%;
 }
 
+/*responsive design for different screen size*/
 @media screen and (max-width: 1200px) {
     .search {
         height: 105px;
