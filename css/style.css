@@ -280,8 +280,7 @@ main {
     }
 
     .easy-autocomplete {
-        width: 100%;
-        display: block;
+        width: 100% !important;
     }
 
     #search-box {
@@ -329,6 +328,17 @@ main {
 @media screen and (max-width: 700px) {
     .search {
         width: 100%;
+        height: 62px;
+    }
+
+    .search .btn {
+        width: 80px;
+        margin-left: 15px;
+        margin-right: 0;
+    }
+
+    .easy-autocomplete {
+        width: 280px !important;
     }
 
     .list-view {
@@ -337,12 +347,24 @@ main {
     }
 
     .map-view {
-        top: 155px;
+        top: 110px;
         width: 100%;
+    }
+
+    #map {
+        height: calc(100vh-110px);
     }
 
     .footer-note {
         width: 100%;
+    }
+
+    .company-list-container {
+        margin-top: 100px;
+    }
+
+    .company-info-container {
+        margin-top: 80px;
     }
 
     .view-change-btn {
@@ -351,9 +373,46 @@ main {
     }
 }
 
-@media screen and (max-width: 400px) {
+@media screen and (max-width: 500px) {
     body {
         font-size: 0.95em;
+    }
+
+    .search {
+        height: 105px;
+    }
+
+    .search .btn {
+        height: 32px;
+        width: 130px;
+        margin-left: 0;
+        margin-right: 20px;
+    }
+
+    .search .show-all-btn {
+        margin-right: 0;
+    }
+
+
+    .easy-autocomplete {
+        width: 100% !important;
+    }
+
+    .map-view {
+        top: 155px;
+        width: 100%;
+    }
+
+    #map {
+        height: calc(100vh - 155px);
+    }
+
+    .company-list-container {
+        margin-top: 140px;
+    }
+
+    .company-info-container {
+        margin-top: 120px;
     }
 }
 
