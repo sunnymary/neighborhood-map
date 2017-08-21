@@ -409,9 +409,9 @@ function AppViewModel() {
     }
 
     //search function
-    //add shouldShowMessage variable to data
+    //add shouldShowCompanyName variable to data
     this.companyArray().forEach(function(company){
-        company.shouldShowMessage = ko.observable(true);
+        company.shouldShowCompanyName = ko.observable(true);
     });
 
     //function to search matched result
@@ -441,7 +441,7 @@ function AppViewModel() {
             //if the search name match list name,
             //show list/marker
             if(company.name === searchName){
-               company.shouldShowMessage(true);
+               company.shouldShowCompanyName(true);
                company.marker.setMap(map);
                checkShow = true;
             }
@@ -485,7 +485,7 @@ function AppViewModel() {
         //this shows the list/markers
         this.companyArray().forEach(function(company){
             //show all the lists
-            company.shouldShowMessage(true);
+            company.shouldShowCompanyName(true);
             //show all the markers
             company.marker.setMap(map);
         });
@@ -499,7 +499,7 @@ function AppViewModel() {
 
         this.companyArray().forEach(function(company){
             //hide all the lists
-            company.shouldShowMessage(false);
+            company.shouldShowCompanyName(false);
             //hide all the markers
             company.marker.setMap(null);
         });
@@ -512,7 +512,6 @@ function AppViewModel() {
         //trigger click event for marker
         triggerMarkerClick(company);
     }
-
 
     //control button to show/hide job lists
     //set the initial status of button text and visibility

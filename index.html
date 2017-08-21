@@ -32,7 +32,7 @@
                 </div>
 
                 <ul class="company-list" data-bind="foreach: companyArray">
-                    <li data-bind="event: {mouseover: $parent.enableInfowindow, mouseout: $parent.disableInfowindow}, visible: shouldShowMessage, click: $parent.showDetail">
+                    <li data-bind="event: {mouseover: $parent.enableInfowindow, mouseout: $parent.disableInfowindow}, visible: shouldShowCompanyName, click: $parent.showDetail">
                         <span data-bind="text: name"></span>
                         (
                         <span data-bind="text: employment"></span>
