@@ -143,7 +143,7 @@ function initMap() {
             marker.setMap(map);
             clearListPanel();
             //show company info section
-            showCompanyInfo();
+            viewModel.shouldShowCompanyInfo(true);
             //create company Info Panel
             createCompanyInfoSection(company);
             processGooglePlaceAPI(company);
@@ -152,7 +152,7 @@ function initMap() {
             //create and hide job list panel
             createJobDetailSection(company);
             processIndeedAPI(company);
-            hideJobList();
+            viewModel.shouldShowJobList(false);
         });
     });
 
@@ -161,12 +161,6 @@ function initMap() {
     for (var i = 0; i < markers.length; i++) {
         viewModel.companyArray()[i].marker = markers[i];
     }
-}
-
-// initial page, hide some part in html
-function initPage() {
-    hideCompanyInfo();
-    hideJobList();
 }
 
 //functions to trigger marker events
@@ -180,26 +174,6 @@ function triggerMarkerMouseout(data) {
 
 function triggerMarkerClick(data) {
     new google.maps.event.trigger(data.marker, 'click');
-}
-
-//function to hide job list section
-function hideJobList(){
-    $(".job-list-container").hide();
-}
-
-//function to show job list section
-function showJobList(){
-    $(".job-list-container").show();
-}
-
-//function to hide company info section
-function hideCompanyInfo(){
-    $(".company-info-container").hide();
-}
-
-//function to show company info section
-function showCompanyInfo(){
-    $(".company-info-container").show();
 }
 
 //function to reset map to its original scale and center
@@ -414,6 +388,12 @@ function AppViewModel() {
         }
     }
 
+    //control section show/hide
+    //set initial visibility for company list/company info/job list sections
+    this.shouldShowCompanyList = ko.observable(true);
+    this.shouldShowCompanyInfo = ko.observable(false);
+    this.shouldShowJobList = ko.observable(false);
+
     //save companyList data into an observable array
     this.companyArray = ko.observableArray([]);
     companyList.forEach(function(oneCompany) {
@@ -447,9 +427,9 @@ function AppViewModel() {
         //reset show job button to its original status
         resetShowJobButton();
         //hide company info section
-        hideCompanyInfo();
+        this.shouldShowCompanyInfo(false);
         //hide job list section
-        hideJobList();
+        this.shouldShowJobList(false);
 
 
         //set an indicator to see if there is any match.
@@ -497,9 +477,10 @@ function AppViewModel() {
         //reset show job button
         resetShowJobButton();
         //hide company info section
-        hideCompanyInfo();
+        this.shouldShowCompanyInfo(false);
         //hide job list section
-        hideJobList();
+        this.shouldShowJobList(false);
+
 
         //this shows the list/markers
         this.companyArray().forEach(function(company){
@@ -530,9 +511,8 @@ function AppViewModel() {
     this.showDetail = function(company){
         //trigger click event for marker
         triggerMarkerClick(company);
-        //show company info section
-        showCompanyInfo();
     }
+
 
     //control button to show/hide job lists
     //set the initial status of button text and visibility
@@ -541,10 +521,10 @@ function AppViewModel() {
     //add toggle function to the button
     this.toggleJobList = function(company){
         if(this.jobButtonName()==="Show Jobs"){
-            showJobList();
+            this.shouldShowJobList(true);
             this.jobButtonName("Hide Jobs");
         } else {
-            hideJobList();
+            this.shouldShowJobList(false);
             this.jobButtonName("Show Jobs");
         }
     }
@@ -562,7 +542,6 @@ function AppViewModel() {
             $(".map-view").hide();
             this.viewButtonName("Map View");
         }
-
     }
 }
 
@@ -570,4 +549,3 @@ var viewModel = new AppViewModel();
 
 // Activates knockout.js
 ko.applyBindings(viewModel);
-initPage();

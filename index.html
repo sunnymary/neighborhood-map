@@ -18,13 +18,13 @@
     <main>
         <div class="search">
             <!-- search box: link value to viewModel, press enter key to match search -->
-            <input id="search-box" data-bind="textInput: companySearch,  event: { keyup: onEnter }" type="text" name="search-box" placeholder="Enter Key Word Here ..." />
+            <input id="search-box" data-bind="textInput: companySearch, event: { keyup: onEnter }" type="text" name="search-box" placeholder="Enter Key Word Here ..." />
 
             <button class="btn search-btn" data-bind="click:matchSearch">Search</button>
             <button class="btn show-all-btn" data-bind="click:showAllListAndMarker">Show All</button>
         </div>
         <div class="list-view">
-            <div class="company-list-container">
+            <div class="company-list-container" data-bind="visible:shouldShowCompanyList">
                 <div class="company-list-header">
                     <h3 class="company-list-title">Company List in Fort Worth Metro Area</h3>
                     <p class="note">Any <strong>big companys</strong> in your neighbourhood? This is a list of companies with major employment(3000+) in Fort Worth metro area. It is sorted by employment number.</p>
@@ -40,11 +40,11 @@
                     </li>
                 </ul>
             </div>
-            <div class="company-info-container">
+            <div class="company-info-container" data-bind="visible:shouldShowCompanyInfo">
                 <div class="company-info"></div>
                 <button class="show-job-list btn" data-bind="text:jobButtonName, click:toggleJobList, visible: shouldShowButton"></button>
             </div>
-            <div class="job-list-container">
+            <div class="job-list-container" data-bind="visible:shouldShowJobList">
                 <span id="indeed_at"><a title="Job Search" href="https://www.indeed.com" rel="nofollow" target="_blank">jobs by <img alt=Indeed src="https://www.indeed.com/p/jobsearch.gif" style="border: 0; vertical-align: middle;"></a></span>
                 <ul class="job-list"></ul>
             </div>
