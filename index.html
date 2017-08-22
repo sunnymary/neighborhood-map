@@ -42,10 +42,17 @@
                     </li>
                 </ul>
             </div>
+
             <div class="company-info-container" data-bind="visible:shouldShowCompanyInfo">
-                <div class="company-info"></div>
+                <div class="company-info">
+                    <h3 class="company-info-title" data-bind="text:companyName"></h3>
+                    <p data-bind="text:companyAddress"></p>
+                    <p data-bind="text:companyEmployment"></p>
+
+                </div>
                 <button class="show-job-list btn" data-bind="text:jobButtonName, click:toggleJobList, visible: shouldShowButton"></button>
             </div>
+
             <div class="job-list-container" data-bind="visible:shouldShowJobList">
                 <span id="indeed_at"><a title="Job Search" href="https://www.indeed.com" rel="nofollow" target="_blank">jobs by <img alt=Indeed src="https://www.indeed.com/p/jobsearch.gif" style="border: 0; vertical-align: middle;"></a></span>
                 <p class="error-indeed" data-bind="text:indeedError"></p>

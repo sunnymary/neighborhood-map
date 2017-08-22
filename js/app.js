@@ -147,6 +147,8 @@ function initMap() {
 
             //show company info section
             viewModel.shouldShowCompanyInfo(true);
+            //show company info
+
             //create company Info Panel
             createCompanyInfoSection(company);
             processGooglePlaceAPI(company);
@@ -192,7 +194,7 @@ function clearListPanel(){
     //hide company-list section
     viewModel.shouldShowCompanyList(false);
     //remove the previous company info
-    $(".company-info").children().remove();
+    // $(".company-info").children().remove();
     //remove the previous job list title and error message
     $(".job-list-title").remove();
     //clean indeed error message
@@ -203,10 +205,9 @@ function clearListPanel(){
 //this function is used in marker/list click event
 function createCompanyInfoSection(company){
     //create title section
-    var companyTitleTag = "<h3 class='company-info-title'>" + company.name +"</h3>";
-    var companyAddressTag = "<p>Address: " + company.headquarterAddress + "</p>";
-    var employmentTag = "<p>Employment: " + company.employment + "</p>";
-    $(".company-info").append(companyTitleTag, companyAddressTag, employmentTag)
+    viewModel.companyName(company.name);
+    viewModel.companyAddress("Address: " + company.headquarterAddress);
+    viewModel.companyEmployment("Employment: " + company.employment);
 }
 
 //use google place API to get company detail information
@@ -391,6 +392,11 @@ function AppViewModel() {
     //indeed error message
     this.indeedError = ko.observable("");
 
+    //company info observable
+    this.companyName = ko.observable("");
+    this.companyAddress = ko.observable("");
+    this.companyEmployment = ko.observable("");
+
     //save companyList data into an observable array
     this.companyArray = ko.observableArray([]);
     companyList.forEach(function(oneCompany) {
@@ -458,7 +464,7 @@ function AppViewModel() {
         //clear error message
         this.indeedError("");
         //clear company info section
-        $(".company-info").children().remove();
+        // $(".company-info").children().remove();
         //show company list
         this.shouldShowCompanyList(true);
     }
