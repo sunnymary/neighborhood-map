@@ -137,25 +137,24 @@ function initMap() {
             //change  map scale for company and center
             map.setZoom(14);
             map.setCenter(company);
-
-            //hide all lists and markers
-            viewModel.hideAllListAndMarker();
             //show the marker of this element
             marker.setMap(map);
+
             //clean list view
-            clearListPanel();
+            //hide company-list section
+            viewModel.shouldShowCompanyList(false);
+            //clean indeed error message
+            viewModel.indeedError("");
 
             //show company info section
             viewModel.shouldShowCompanyInfo(true);
-            //show company info
-
             //create company Info Panel
-            createCompanyInfoSection(company);
+            viewModel.createCompanyInfoSection(company);
             processGooglePlaceAPI(company);
             viewModel.shouldShowButton(true);
 
             //create and hide job list panel
-            createJobDetailSection(company);
+            viewModel.createJobDetailSection(company);
             processIndeedAPI(company);
             viewModel.shouldShowJobList(false);
         });
@@ -186,24 +185,6 @@ function resetMap(){
     var fortWorth = {lat: 32.7554883,lng: -97.3307658};
     map.setCenter(fortWorth);
     map.setZoom(10);
-}
-
-//function to clear company list, previous company info title/job list title
-//this function is used in marker/list click event
-function clearListPanel(){
-    //hide company-list section
-    viewModel.shouldShowCompanyList(false);
-    //clean indeed error message
-    viewModel.indeedError("");
-}
-
-//function to create Company info card
-//this function is used in marker/list click event
-function createCompanyInfoSection(company){
-    //create title section
-    viewModel.companyName(company.name);
-    viewModel.companyAddress("Address: " + company.headquarterAddress);
-    viewModel.companyEmployment("Employment: " + company.employment);
 }
 
 //use google place API to get company detail information
@@ -277,13 +258,6 @@ function processGooglePlaceAPI(company){
     });
 }
 
-//function to hide company list and create job list section
-//this function is used in marker/list click event
-function createJobDetailSection(company){
-    //insert title for job list section
-    viewModel.jobListTitle("Jobs in " + company.name);
-}
-
 //function to request, get and process data from indeed api
 //this function is used in marker/list click event
 function processIndeedAPI(company){
@@ -303,26 +277,9 @@ function processIndeedAPI(company){
 
       success: function(data) {
         // handle a successful response.
-        //loop through the json results
-        for (var i = 0; i < data.results.length; i++) {
-            //get result from json
-            var jobTitle = data.results[i].jobtitle;
-            var jobCompany = data.results[i].company;
-            var jobLocation = data.results[i].formattedLocationFull;
-            var jobURL = data.results[i].url;
-            var jobSnippet = data.results[i].snippet;
-            var jobDate = data.results[i].formattedRelativeTime;
-
-            //form DOM element
-            var jobTitleTag = "<h4 class='job-title'>"+ jobTitle +"</h4>";
-            var jobDetailTag = "<p class='job-info'>" + jobCompany + " - " + jobLocation + ", " +jobDate + "</p>"
-            var jobDescriptionTag = "<p class='job-description'>Description:"+ jobSnippet +"</p>";
-            var jobLinkTag = "<a href='"+ jobURL +"' target='_blank'>Link to Jobs</a>";
-
-            //append DOM to the app
-            $(".job-list").append("<li></li>");
-            $(".job-list li").last().append(jobTitleTag, jobDetailTag, jobDescriptionTag, jobLinkTag);
-        }
+        //update the data list into view model array
+        var jobResults = data.results;
+        viewModel.jobResultArray(jobResults);
       },
 
       error: function() {
@@ -406,6 +363,7 @@ function AppViewModel() {
 
     //job list observables
     this.jobListTitle = ko.observable("");
+    this.jobResultArray = ko.observableArray([]);
 
     //mouseover/mouseout list to trigger marker events
     this.enableInfowindow = function(company) {
@@ -513,6 +471,21 @@ function AppViewModel() {
         });
     }
 
+    //function to create Company info card
+    //this function is used in marker/list click event
+    this.createCompanyInfoSection = function(company){
+        //create title section
+        this.companyName(company.name);
+        this.companyAddress("Address: " + company.headquarterAddress);
+        this.companyEmployment("Employment: " + company.employment);
+    }
+
+    //function to create job list section
+    //this function is used in marker/list click event
+    this.createJobDetailSection = function(company){
+        //insert title for job list section
+        this.jobListTitle("Jobs in " + company.name);
+    }
 
     //click on the list to show its detail information
     //trigger marker click event to achieve

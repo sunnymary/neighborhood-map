@@ -8,6 +8,7 @@
     <!-- jQuery autocomplete plugin - source: http://easyautocomplete.com/guide -->
     <link rel="stylesheet" href="easy-autocomplete/easy-autocomplete.min.css">
 </head>
+
 <body>
     <header>
         <h1 class="title" data-bind="click:showAllListAndMarker">Company Master</h1>
@@ -15,7 +16,9 @@
             <button class="view-change-btn btn" data-bind="click:changeViews, text:viewButtonName"></button>
         </div>
     </header>
+
     <main>
+        <!-- search bar -->
         <div class="search">
             <!-- search box: link value to viewModel, press enter key to match search -->
             <input id="search-box" data-bind="textInput: companySearch, event: { keyup: onEnter }" type="text" name="search-box" placeholder="Enter Key Word Here ..." />
@@ -23,6 +26,8 @@
             <button class="btn search-btn" data-bind="click:matchSearch">Search</button>
             <button class="btn show-all-btn" data-bind="click:showAllListAndMarker">Show All</button>
         </div>
+
+        <!-- company list, company detail info card, job list -->
         <div class="list-view">
             <div class="company-list-container" data-bind="visible:shouldShowCompanyList">
                 <div class="company-list-header">
@@ -43,6 +48,7 @@
                 </ul>
             </div>
 
+            <!-- company info section -->
             <div class="company-info-container" data-bind="visible:shouldShowCompanyInfo">
                 <div class="company-info">
                     <img alt="company photo" data-bind="attr:{src:googlePhotoURL}, visible:shouldShowPhoto">
@@ -55,26 +61,43 @@
                     <p data-bind="text:companyEmployment"></p>
                     <p data-bind="text:googlePhone"></p>
                     <p data-bind="text:googleRating"></p>
-                    <a data-bind="attr:{href:googleWebsite}, visible:shouldShowWebsite" target="_blank">Go to Website</a>
+                    <p><a data-bind="attr:{href:googleWebsite}, visible:shouldShowWebsite" target="_blank">Go to Website</a></p>
+
                     <!-- google place attribution logo -->
                     <img class='google-logo' src='./images/powered_by_google_on_white.png' alt='powered by google'>
                 </div>
                 <button class="show-job-btn btn" data-bind="text:jobButtonName, click:toggleJobList, visible: shouldShowButton"></button>
             </div>
 
+            <!-- job list section from indeed -->
             <div class="job-list-container" data-bind="visible:shouldShowJobList">
                 <h3 class='job-list-title' data-bind="text:jobListTitle"></h3>
                 <span id="indeed_at"><a title="Job Search" href="https://www.indeed.com" rel="nofollow" target="_blank">jobs by <img alt=Indeed src="https://www.indeed.com/p/jobsearch.gif" style="border: 0; vertical-align: middle;"></a></span>
                 <p class="error-indeed" data-bind="text:indeedError"></p>
-                <ul class="job-list"></ul>
+                <ul class="job-list" data-bind="foreach:jobResultArray">
+                    <li>
+                        <h4 class="job-title" data-bind="text:jobtitle"></h4>
+                        <p class="job-info">
+                            <span data-bind="text:company"></span> -
+                            <span data-bind="text:formattedLocationFull"></span>,
+                            <span data-bind="html:formattedRelativeTime"></span>
+                        </p>
+                        <p class="job-description" data-bind="html:snippet"></p>
+                        <a target="_blank" data-bind="attr:{href:url}">Link to Jobs</a>
+                    </li>
+                </ul>
             </div>
         </div>
 
+        <!-- interactiv google map -->
         <div class="map-view">
             <div id="map"></div>
         </div>
     </main>
-    <p class="footer-note">©2017 Designed and Developed by Miaoyun Zhou</p>
+
+    <footer>
+        <p class="footer-note">©2017 Designed and Developed by Miaoyun Zhou</p>
+    </footer>
 
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js'></script>
