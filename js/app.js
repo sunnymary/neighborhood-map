@@ -193,8 +193,6 @@ function resetMap(){
 function clearListPanel(){
     //hide company-list section
     viewModel.shouldShowCompanyList(false);
-    //remove the previous job list title and error message
-    $(".job-list-title").remove();
     //clean indeed error message
     viewModel.indeedError("");
 }
@@ -241,17 +239,21 @@ function processGooglePlaceAPI(company){
                 return;
             }
 
-            console.log(detailData);
+            //get data from response
             var website = detailData.website;
             var phone = detailData.formatted_phone_number;
             var rating = detailData.rating;
-            //if the data has photo
+
+            //check if the data has a photo
             if(detailData.photos){
+                //if has, show the photo/attribution DOM
                 viewModel.shouldShowPhoto(true);
                 viewModel.shouldShowAttr(true);
+                //get the data
                 var photoURL = detailData.photos[0].getUrl({'maxWidth': 300, 'maxHeight': 300});
                 var photoAttributions = detailData.photos[0].html_attributions;
             } else {
+                //if not, hide the photo/attribution DOM
                 viewModel.shouldShowPhoto(false);
                 viewModel.shouldShowAttr(false);
             }
@@ -260,7 +262,12 @@ function processGooglePlaceAPI(company){
             viewModel.googlePhotoURL(photoURL);
             viewModel.googlePhone("Phone Number: " + phone);
             viewModel.googleRating("Rating: " + rating + "/5");
-            viewModel.googleWebsite(website);
+            if(website){
+                viewModel.shouldShowWebsite(true);
+                viewModel.googleWebsite(website);
+            } else {
+                viewModel.shouldShowWebsite(false);
+            }
             viewModel.googleAttributionArray(photoAttributions);
 
             //use code to adjust the data from api
@@ -274,8 +281,7 @@ function processGooglePlaceAPI(company){
 //this function is used in marker/list click event
 function createJobDetailSection(company){
     //insert title for job list section
-    var companyTitle = "<h3 class='job-list-title'>Jobs in " + company.name +"</h3>";
-    $(companyTitle).insertBefore("#indeed_at");
+    viewModel.jobListTitle("Jobs in " + company.name);
 }
 
 //function to request, get and process data from indeed api
@@ -395,7 +401,11 @@ function AppViewModel() {
     this.googlePhone = ko.observable("");
     this.googleRating = ko.observable("");
     this.googleWebsite = ko.observable("");
+    this.shouldShowWebsite = ko.observable(true);
     this.googleAttributionArray = ko.observableArray([]);
+
+    //job list observables
+    this.jobListTitle = ko.observable("");
 
     //mouseover/mouseout list to trigger marker events
     this.enableInfowindow = function(company) {
@@ -454,7 +464,7 @@ function AppViewModel() {
     //function to show company list and remove job list
     this.showCompanyListDOM = function(){
         //clear job list, title
-        $(".job-list li,.job-list-title").remove();
+        // $(".job-list li,.job-list-title").remove();
         //clear error message
         this.indeedError("");
         //show company list
