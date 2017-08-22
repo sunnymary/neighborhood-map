@@ -31,6 +31,8 @@
                     <p class="source">source of data: <a class="link" href="http://www.fortworthecodev.com/fort-worth-overview/facts-figures/major-employers/">Fort Worth Chamber</a>, <a class="link" href="https://www.dallasnews.com/business/business/2016/07/15/2016-list-dallas-fort-worths-150-largest-public-companies">Dallas News</a></p>
                 </div>
 
+                <p class="message" data-bind="visible:shouldShowNoMatch">Sorry, No Match found...</p>
+
                 <ul class="company-list" data-bind="foreach: companyArray">
                     <li data-bind="event: {mouseover: $parent.enableInfowindow, mouseout: $parent.disableInfowindow}, visible: shouldShowCompanyName, click: $parent.showDetail">
                         <span data-bind="text: name"></span>

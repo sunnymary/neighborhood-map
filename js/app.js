@@ -190,11 +190,6 @@ function resetShowJobButton(){
     viewModel.jobButtonName("Show Jobs");
 }
 
-//function to clear no match message under company search list
-function clearNoMatchMessage(){
-    $(".message").remove();
-}
-
 //function to clear company list, previous company info title/job list title
 //this function is used in marker/list click event
 function clearListPanel(){
@@ -394,6 +389,10 @@ function AppViewModel() {
     this.shouldShowCompanyInfo = ko.observable(false);
     this.shouldShowJobList = ko.observable(false);
 
+    //no match message
+    this.shouldShowNoMatch = ko.observable(false);
+
+
     //save companyList data into an observable array
     this.companyArray = ko.observableArray([]);
     companyList.forEach(function(oneCompany) {
@@ -448,8 +447,7 @@ function AppViewModel() {
         });
 
         if(checkShow === false){
-            var noMatchMessageTag = "<p class='message'>Sorry, No Match found...</p>";
-            $(".company-list-container").append(noMatchMessageTag);
+            this.shouldShowNoMatch(true);
         }
     };
 
@@ -472,8 +470,8 @@ function AppViewModel() {
         this.showCompanyListDOM();
         //reset map to initial bounds
         resetMap();
-        //clear no match message
-        clearNoMatchMessage();
+        //hide no match message
+        this.shouldShowNoMatch(false);
         //reset show job button
         resetShowJobButton();
         //hide company info section
@@ -494,8 +492,8 @@ function AppViewModel() {
     //hide all the list/marker
     //use in marker click event/showDetail function
     this.hideAllListAndMarker = function(){
-        //clear no match message
-        clearNoMatchMessage();
+        //hide no match message
+        this.shouldShowNoMatch(false);
 
         this.companyArray().forEach(function(company){
             //hide all the lists
