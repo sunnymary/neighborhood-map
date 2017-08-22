@@ -137,11 +137,14 @@ function initMap() {
             //change  map scale for company and center
             map.setZoom(14);
             map.setCenter(company);
+
             //hide all lists and markers
             viewModel.hideAllListAndMarker();
             //show the marker of this element
             marker.setMap(map);
+            //clean list view
             clearListPanel();
+
             //show company info section
             viewModel.shouldShowCompanyInfo(true);
             //create company Info Panel
@@ -183,22 +186,17 @@ function resetMap(){
     map.setZoom(10);
 }
 
-//function to reset show job button under company info section
-function resetShowJobButton(){
-    //reset the initial status of button text and visibility
-    viewModel.shouldShowButton(false);
-    viewModel.jobButtonName("Show Jobs");
-}
-
 //function to clear company list, previous company info title/job list title
 //this function is used in marker/list click event
 function clearListPanel(){
     //hide company-list section
-    $(".company-list-container").hide();
+    viewModel.shouldShowCompanyList(false);
     //remove the previous company info
     $(".company-info").children().remove();
     //remove the previous job list title and error message
-    $(".job-list-title,.error-indeed").remove();
+    $(".job-list-title").remove();
+    //clean indeed error message
+    viewModel.indeedError("");
 }
 
 //function to create Company info card
@@ -290,9 +288,7 @@ function processGooglePlaceAPI(company){
 function createJobDetailSection(company){
     //insert title for job list section
     var companyTitle = "<h3 class='job-list-title'>Jobs in " + company.name +"</h3>";
-    var errorMessageIndeed = "<p class='error-indeed'></p>"
     $(companyTitle).insertBefore("#indeed_at");
-    $(errorMessageIndeed).insertAfter("#indeed_at");
 }
 
 //function to request, get and process data from indeed api
@@ -338,7 +334,7 @@ function processIndeedAPI(company){
 
       error: function() {
         // handle an error response.
-        $(".error-indeed").text("Cannot load Jobs. An ERROR has occurred...");
+        viewModel.indeedError("Cannot load Jobs. An ERROR has occurred...");
       }
     });
 }
@@ -390,8 +386,10 @@ function AppViewModel() {
     this.shouldShowJobList = ko.observable(false);
 
     //no match message
-    this.shouldShowNoMatch = ko.observable(false);
+    this.noMatchMessage = ko.observable("");
 
+    //indeed error message
+    this.indeedError = ko.observable("");
 
     //save companyList data into an observable array
     this.companyArray = ko.observableArray([]);
@@ -423,8 +421,9 @@ function AppViewModel() {
         this.hideAllListAndMarker();
         //reset map to its original scale;
         resetMap();
-        //reset show job button to its original status
-        resetShowJobButton();
+        //reset show job button to its original status(text and visibility)
+        this.shouldShowButton(false);
+        this.jobButtonName("Show Jobs");
         //hide company info section
         this.shouldShowCompanyInfo(false);
         //hide job list section
@@ -447,18 +446,21 @@ function AppViewModel() {
         });
 
         if(checkShow === false){
-            this.shouldShowNoMatch(true);
+            //show no match message
+            this.noMatchMessage("Sorry, No Match found...");
         }
     };
 
     //function to show company list and remove job list
     this.showCompanyListDOM = function(){
-        //clear job list, title and error message
-        $(".job-list li,.job-list-title,.error-indeed").remove();
+        //clear job list, title
+        $(".job-list li,.job-list-title").remove();
+        //clear error message
+        this.indeedError("");
         //clear company info section
         $(".company-info").children().remove();
         //show company list
-        $(".company-list-container").show();
+        this.shouldShowCompanyList(true);
     }
 
     //show all the list/marker
@@ -470,15 +472,15 @@ function AppViewModel() {
         this.showCompanyListDOM();
         //reset map to initial bounds
         resetMap();
-        //hide no match message
-        this.shouldShowNoMatch(false);
-        //reset show job button
-        resetShowJobButton();
+        //clean no match message
+        this.noMatchMessage("");
+         //reset show job button to its original status(text and visibility)
+        this.shouldShowButton(false);
+        this.jobButtonName("Show Jobs");
         //hide company info section
         this.shouldShowCompanyInfo(false);
         //hide job list section
         this.shouldShowJobList(false);
-
 
         //this shows the list/markers
         this.companyArray().forEach(function(company){
@@ -492,8 +494,8 @@ function AppViewModel() {
     //hide all the list/marker
     //use in marker click event/showDetail function
     this.hideAllListAndMarker = function(){
-        //hide no match message
-        this.shouldShowNoMatch(false);
+        //clean no match message
+        this.noMatchMessage("");
 
         this.companyArray().forEach(function(company){
             //hide all the lists

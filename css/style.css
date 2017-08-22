@@ -197,6 +197,7 @@ main {
 .show-job-list {
     margin-bottom: 30px;
     margin-left: 15px;
+    width: 130px;
 }
 
 .job-list-title {
