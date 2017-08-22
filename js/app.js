@@ -193,8 +193,6 @@ function resetMap(){
 function clearListPanel(){
     //hide company-list section
     viewModel.shouldShowCompanyList(false);
-    //remove the previous company info
-    // $(".company-info").children().remove();
     //remove the previous job list title and error message
     $(".job-list-title").remove();
     //clean indeed error message
@@ -243,43 +241,31 @@ function processGooglePlaceAPI(company){
                 return;
             }
 
+            console.log(detailData);
             var website = detailData.website;
             var phone = detailData.formatted_phone_number;
             var rating = detailData.rating;
-            var photoURL = detailData.photos[0].getUrl({'maxWidth': 300, 'maxHeight': 300});
-            var photoAttribtions = detailData.photos[0].html_attributions;
-
-
-            //include the data into DOM
-            //add list of source
-            var attrList = "<ul class='attribution'>Source: </ul>";
-            $(".company-info").prepend(attrList);
-            photoAttribtions.forEach(function(photoAttr){
-                var attrTag = "<li>" + photoAttr + "</li>";
-                $(".company-info ul").append(attrTag);
-            });
-            //when click on the attribution link, open a new tab
-            $(".attribution a").attr("target","_blank");
-
-            //add photo
-            var photoTag = "<img src='" + photoURL + "' alt='company photo'>";
-            $(".company-info").prepend(photoTag);
-
-            //add phone number/rating
-            var phoneTag = "<p>Phone Number: " + phone + "</p>";
-            var ratingTag = "<p>Rating: " + rating + "/5</p>";
-            $(".company-info").append(phoneTag,ratingTag);
-
-            //some data don't have website
-            //include website tag if it has one.
-            if(website){
-                var websiteTag = "<a href='" + website + "' target='_blank'>Go to Website</p>";
-                $(".company-info").append(websiteTag);
+            //if the data has photo
+            if(detailData.photos){
+                viewModel.shouldShowPhoto(true);
+                viewModel.shouldShowAttr(true);
+                var photoURL = detailData.photos[0].getUrl({'maxWidth': 300, 'maxHeight': 300});
+                var photoAttributions = detailData.photos[0].html_attributions;
+            } else {
+                viewModel.shouldShowPhoto(false);
+                viewModel.shouldShowAttr(false);
             }
 
-            //add logo attribution
-            var attrLogoTag = "<img class='google-logo' src='./images/powered_by_google_on_white.png' alt='powered by google'>";
-            $(".company-info").append(attrLogoTag);
+            //update company info viewModel with data from google place
+            viewModel.googlePhotoURL(photoURL);
+            viewModel.googlePhone("Phone Number: " + phone);
+            viewModel.googleRating("Rating: " + rating + "/5");
+            viewModel.googleWebsite(website);
+            viewModel.googleAttributionArray(photoAttributions);
+
+            //use code to adjust the data from api
+            //when click on the attribution link, open a new tab
+            $(".attribution a").attr("target","_blank");
         })
     });
 }
@@ -371,14 +357,6 @@ $("#search-box").easyAutocomplete(options);
 // This is a simple *viewmodel* - JavaScript that defines the data and behavior of your UI
 function AppViewModel() {
     var self = this;
-    //search box value set
-    this.companySearch = ko.observable("");
-
-    this.onEnter = function(data,e) {
-        if(e.keyCode === 13){
-            this.matchSearch();
-        }
-    }
 
     //control section show/hide
     //set initial visibility for company list/company info/job list sections
@@ -392,16 +370,32 @@ function AppViewModel() {
     //indeed error message
     this.indeedError = ko.observable("");
 
-    //company info observable
-    this.companyName = ko.observable("");
-    this.companyAddress = ko.observable("");
-    this.companyEmployment = ko.observable("");
+    //search box value set
+    this.companySearch = ko.observable("");
+    //use enter key to control search box
+    this.onEnter = function(data,e) {
+        if(e.keyCode === 13){
+            this.matchSearch();
+        }
+    }
 
     //save companyList data into an observable array
     this.companyArray = ko.observableArray([]);
     companyList.forEach(function(oneCompany) {
         self.companyArray.push(new Company(oneCompany));
     });
+
+    //company info observables
+    this.companyName = ko.observable("");
+    this.companyAddress = ko.observable("");
+    this.companyEmployment = ko.observable("");
+    this.googlePhotoURL = ko.observable("");
+    this.shouldShowPhoto = ko.observable(true);
+    this.shouldShowAttr = ko.observable(true);
+    this.googlePhone = ko.observable("");
+    this.googleRating = ko.observable("");
+    this.googleWebsite = ko.observable("");
+    this.googleAttributionArray = ko.observableArray([]);
 
     //mouseover/mouseout list to trigger marker events
     this.enableInfowindow = function(company) {
@@ -463,8 +457,6 @@ function AppViewModel() {
         $(".job-list li,.job-list-title").remove();
         //clear error message
         this.indeedError("");
-        //clear company info section
-        // $(".company-info").children().remove();
         //show company list
         this.shouldShowCompanyList(true);
     }

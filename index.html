@@ -45,10 +45,19 @@
 
             <div class="company-info-container" data-bind="visible:shouldShowCompanyInfo">
                 <div class="company-info">
+                    <img alt="company photo" data-bind="attr:{src:googlePhotoURL}, visible:shouldShowPhoto">
+                    <ul class='attribution' data-bind="foreach:googleAttributionArray, visible:shouldShowAttr">
+                        Source:
+                        <li data-bind="html:$data"></li>
+                    </ul>
                     <h3 class="company-info-title" data-bind="text:companyName"></h3>
                     <p data-bind="text:companyAddress"></p>
                     <p data-bind="text:companyEmployment"></p>
-
+                    <p data-bind="text:googlePhone"></p>
+                    <p data-bind="text:googleRating"></p>
+                    <a target="_blank" data-bind="if:googleWebsite, attr:{href:googleWebsite}">Go to Website</p>
+                    <!-- google place attribution logo -->
+                    <img class='google-logo' src='./images/powered_by_google_on_white.png' alt='powered by google'>
                 </div>
                 <button class="show-job-list btn" data-bind="text:jobButtonName, click:toggleJobList, visible: shouldShowButton"></button>
             </div>
