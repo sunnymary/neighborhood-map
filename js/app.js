@@ -371,6 +371,7 @@ function AppViewModel() {
     //indeed error message
     this.indeedError = ko.observable("");
 
+    //====================
     //search box value set
     this.companySearch = ko.observable("");
     //use enter key to control search box
@@ -380,37 +381,15 @@ function AppViewModel() {
         }
     }
 
+    //==============================================
+    //company list data
     //save companyList data into an observable array
     this.companyArray = ko.observableArray([]);
     companyList.forEach(function(oneCompany) {
         self.companyArray.push(new Company(oneCompany));
     });
 
-    //company info observables
-    this.companyName = ko.observable("");
-    this.companyAddress = ko.observable("");
-    this.companyEmployment = ko.observable("");
-    this.googlePhotoURL = ko.observable("");
-    this.shouldShowPhoto = ko.observable(true);
-    this.shouldShowAttr = ko.observable(true);
-    this.googlePhone = ko.observable("");
-    this.googleRating = ko.observable("");
-    this.googleWebsite = ko.observable("");
-    this.shouldShowWebsite = ko.observable(true);
-    this.googleAttributionArray = ko.observableArray([]);
-
-    //job list observables
-    this.jobListTitle = ko.observable("");
-    this.jobResultArray = ko.observableArray([]);
-
-    //mouseover/mouseout list to trigger marker events
-    this.enableInfowindow = function(company) {
-        triggerMarkerMouseover(company);
-    }
-    this.disableInfowindow = function(company) {
-        triggerMarkerMouseout(company);
-    }
-
+    //===============
     //search function
     //add shouldShowCompanyName variable to data
     this.companyArray().forEach(function(company){
@@ -421,8 +400,8 @@ function AppViewModel() {
     //this function is attacted to viewModel
     this.matchSearch = function() {
         var searchName = $("#search-box").val();
-        //show the company list DOM element
-        this.showCompanyListDOM();
+        //show company list
+        this.shouldShowCompanyList(true);
         //come back to the company list status
         this.hideAllListAndMarker();
         //reset map to its original scale;
@@ -434,7 +413,6 @@ function AppViewModel() {
         this.shouldShowCompanyInfo(false);
         //hide job list section
         this.shouldShowJobList(false);
-
 
         //set an indicator to see if there is any match.
         //the no match found, value = false
@@ -457,23 +435,57 @@ function AppViewModel() {
         }
     };
 
-    //function to show company list and remove job list
-    this.showCompanyListDOM = function(){
-        //clear job list, title
-        // $(".job-list li,.job-list-title").remove();
-        //clear error message
-        this.indeedError("");
-        //show company list
-        this.shouldShowCompanyList(true);
+    //=========================
+    //company info observables
+    this.companyName = ko.observable("");
+    this.companyAddress = ko.observable("");
+    this.companyEmployment = ko.observable("");
+    this.googlePhotoURL = ko.observable("");
+    this.shouldShowPhoto = ko.observable(true);
+    this.shouldShowAttr = ko.observable(true);
+    this.googlePhone = ko.observable("");
+    this.googleRating = ko.observable("");
+    this.googleWebsite = ko.observable("");
+    this.shouldShowWebsite = ko.observable(true);
+    this.googleAttributionArray = ko.observableArray([]);
+
+    //job list observables
+    this.jobListTitle = ko.observable("");
+    this.jobResultArray = ko.observableArray([]);
+
+    //function to create Company info card
+    //this function is used in marker/list click event
+    this.createCompanyInfoSection = function(company){
+        //create title section
+        this.companyName(company.name);
+        this.companyAddress("Address: " + company.headquarterAddress);
+        this.companyEmployment("Employment: " + company.employment);
     }
 
+    //function to create job list section
+    //this function is used in marker/list click event
+    this.createJobDetailSection = function(company){
+        //insert title for job list section
+        this.jobListTitle("Jobs in " + company.name);
+    }
+
+    //================================================
+    //mouseover/mouseout list to trigger marker events
+    this.enableInfowindow = function(company) {
+        triggerMarkerMouseover(company);
+    }
+    this.disableInfowindow = function(company) {
+        triggerMarkerMouseout(company);
+    }
+
+    //=========================
     //show all the list/marker
     //this function is attacted to viewModel
     this.showAllListAndMarker = function(){
         //set the value of search box to be blank
         this.companySearch("");
-        //show the company list DOM element
-        this.showCompanyListDOM();
+        //show company list
+        this.shouldShowCompanyList(true);
         //reset map to initial bounds
         resetMap();
         //clean no match message
@@ -509,22 +521,6 @@ function AppViewModel() {
         });
     }
 
-    //function to create Company info card
-    //this function is used in marker/list click event
-    this.createCompanyInfoSection = function(company){
-        //create title section
-        this.companyName(company.name);
-        this.companyAddress("Address: " + company.headquarterAddress);
-        this.companyEmployment("Employment: " + company.employment);
-    }
-
-    //function to create job list section
-    //this function is used in marker/list click event
-    this.createJobDetailSection = function(company){
-        //insert title for job list section
-        this.jobListTitle("Jobs in " + company.name);
-    }
-
     //click on the list to show its detail information
     //trigger marker click event to achieve
     this.showDetail = function(company){
@@ -532,6 +528,7 @@ function AppViewModel() {
         triggerMarkerClick(company);
     }
 
+    //=====================================
     //control button to show/hide job lists
     //set the initial status of button text and visibility
     this.shouldShowButton = ko.observable(false);
@@ -547,6 +544,7 @@ function AppViewModel() {
         }
     }
 
+    //=========================================
     //Map view/list view change button function
     //set and store the initial button name
     this.viewButtonName = ko.observable("List/Info View");
