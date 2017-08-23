@@ -399,7 +399,8 @@ function AppViewModel() {
     //function to search matched result
     //this function is attacted to viewModel
     this.matchSearch = function() {
-        var searchName = $("#search-box").val();
+        //get value of search box
+        var searchName = this.companySearch();
         //show company list
         this.shouldShowCompanyList(true);
         //come back to the company list status
