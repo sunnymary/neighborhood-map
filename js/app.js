@@ -102,8 +102,26 @@ function initMap() {
         ]
     });
 
+    //set variables and attach to global
     this.markers = [];
     this.infowindows = [];
+    this.redDot = {
+        path: google.maps.SymbolPath.CIRCLE,
+        scale: 8,
+        strokeColor: 'white',
+        strokeWeight: 3,
+        fillColor: '#cc0159',
+        fillOpacity: 1
+    };
+
+    this.orangeDot = {
+        path: google.maps.SymbolPath.CIRCLE,
+        scale: 8,
+        strokeColor: 'white',
+        strokeWeight: 3,
+        fillColor: 'orange',
+        fillOpacity: 1
+    }
 
     //loop through companyList to create marker&infowindow
     companyList.forEach(function(company) {
@@ -117,7 +135,8 @@ function initMap() {
 
         var marker = new google.maps.Marker({
             position: company,
-            map: map
+            map: map,
+            icon: redDot
         });
 
         //store created marker/infowindow into list
@@ -127,9 +146,11 @@ function initMap() {
         //add method to open/close infowindow
         marker.addListener('mouseover', function() {
             infowindow.open(map, marker);
+            marker.setIcon(orangeDot);
         });
         marker.addListener('mouseout', function() {
             infowindow.close(map, marker);
+            marker.setIcon(redDot);
         });
 
         //add eventlister to show detail
@@ -139,6 +160,8 @@ function initMap() {
             map.setCenter(company);
             //show the marker of this element
             marker.setMap(map);
+            marker.setIcon(orangeDot);
+            infowindow.open(map, marker);
 
             //clean list view
             //hide company-list section
@@ -160,7 +183,7 @@ function initMap() {
         });
     });
 
-    //add markers/infowindows to companyArray
+    //add markers to companyArray
     //idea comes from Udacity forums Karol's comment - https://discussions.udacity.com/t/infowindow-not-opening-when-clicking-on-list-item-markers-name/305720/2
     for (var i = 0; i < markers.length; i++) {
         viewModel.companyArray()[i].marker = markers[i];
@@ -182,9 +205,19 @@ function triggerMarkerClick(data) {
 
 //function to reset map to its original scale and center
 function resetMap(){
+    //reset map center
     var fortWorth = {lat: 32.7554883,lng: -97.3307658};
     map.setCenter(fortWorth);
     map.setZoom(10);
+
+    //reset map marker
+    markers.forEach(function(marker){
+        marker.setIcon(redDot);
+    });
+    //reset infowindows
+    infowindows.forEach(function(infowindow){
+        infowindow.close();
+    })
 }
 
 //use google place API to get company detail information
