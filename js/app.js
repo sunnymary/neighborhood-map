@@ -106,7 +106,7 @@ function initMap() {
         strokeWeight: 3,
         fillColor: 'orange',
         fillOpacity: 1
-    }
+    };
 
     //loop through companyList to create marker&infowindow
     companyList.forEach(function(company) {
@@ -182,15 +182,15 @@ function initMap() {
 
 //functions to trigger marker events
 function triggerMarkerMouseover(data) {
-    new google.maps.event.trigger(data.marker, 'mouseover');
+    google.maps.event.trigger(data.marker, 'mouseover');
 }
 
 function triggerMarkerMouseout(data) {
-    new google.maps.event.trigger(data.marker, 'mouseout');
+    google.maps.event.trigger(data.marker, 'mouseout');
 }
 
 function triggerMarkerClick(data) {
-    new google.maps.event.trigger(data.marker, 'click');
+    google.maps.event.trigger(data.marker, 'click');
 }
 
 //function to reset map to its original scale and center
@@ -210,7 +210,7 @@ function resetMap() {
     //reset infowindows
     infowindows.forEach(function(infowindow) {
         infowindow.close();
-    })
+    });
 }
 
 //use google place API to get company detail information
@@ -250,6 +250,8 @@ function processGooglePlaceAPI(company) {
             var website = detailData.website;
             var phone = detailData.formatted_phone_number;
             var rating = detailData.rating;
+            var photoURL;
+            var photoAttributions;
 
             //check if the data has a photo
             if (detailData.photos) {
@@ -257,11 +259,11 @@ function processGooglePlaceAPI(company) {
                 viewModel.shouldShowPhoto(true);
                 viewModel.shouldShowAttr(true);
                 //get the data
-                var photoURL = detailData.photos[0].getUrl({
+                photoURL = detailData.photos[0].getUrl({
                     'maxWidth': 300,
                     'maxHeight': 300
                 });
-                var photoAttributions = detailData.photos[0].html_attributions;
+                photoAttributions = detailData.photos[0].html_attributions;
             } else {
                 //if not, hide the photo/attribution DOM
                 viewModel.shouldShowPhoto(false);
@@ -283,7 +285,7 @@ function processGooglePlaceAPI(company) {
             //use code to adjust the data from api
             //when click on the attribution link, open a new tab
             $(".attribution a").attr("target", "_blank");
-        })
+        });
     });
 }
 
@@ -370,7 +372,7 @@ function AppViewModel() {
         if (e.keyCode === 13) {
             this.matchSearch();
         }
-    }
+    };
 
     //==============================================
     //company list data
@@ -452,23 +454,23 @@ function AppViewModel() {
         this.companyName(company.name);
         this.companyAddress("Address: " + company.headquarterAddress);
         this.companyEmployment("Employment: " + company.employment);
-    }
+    };
 
     //function to create job list section
     //this function is used in marker/list click event
     this.createJobDetailSection = function(company) {
         //insert title for job list section
         this.jobListTitle("Jobs in " + company.name);
-    }
+    };
 
     //================================================
     //mouseover/mouseout list to trigger marker events
     this.enableInfowindow = function(company) {
         triggerMarkerMouseover(company);
-    }
+    };
     this.disableInfowindow = function(company) {
         triggerMarkerMouseout(company);
-    }
+    };
 
     //=========================
     //show all the list/marker
@@ -511,14 +513,14 @@ function AppViewModel() {
             //hide all the markers
             company.marker.setMap(null);
         });
-    }
+    };
 
     //click on the list to show its detail information
     //trigger marker click event to achieve
     this.showDetail = function(company) {
         //trigger click event for marker
         triggerMarkerClick(company);
-    }
+    };
 
     //=====================================
     //control button to show/hide job lists
@@ -534,7 +536,7 @@ function AppViewModel() {
             this.shouldShowJobList(false);
             this.jobButtonName("Show Jobs");
         }
-    }
+    };
 
     //=========================================
     //Map view/list view change button function
@@ -550,7 +552,7 @@ function AppViewModel() {
             $(".map-view").hide();
             this.viewButtonName("Map View");
         }
-    }
+    };
 }
 
 var viewModel = new AppViewModel();
