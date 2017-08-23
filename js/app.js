@@ -116,7 +116,7 @@ function initMap() {
 
     this.orangeDot = {
         path: google.maps.SymbolPath.CIRCLE,
-        scale: 8,
+        scale: 9,
         strokeColor: 'white',
         strokeWeight: 3,
         fillColor: 'orange',
@@ -143,7 +143,7 @@ function initMap() {
         markers.push(marker);
         infowindows.push(infowindow);
 
-        //add method to open/close infowindow
+        //mouseover/mouseout event - show infowindow & change color
         marker.addListener('mouseover', function() {
             infowindow.open(map, marker);
             marker.setIcon(orangeDot);
@@ -160,7 +160,12 @@ function initMap() {
             map.setCenter(company);
             //show the marker of this element
             marker.setMap(map);
+
+            //change marker color
             marker.setIcon(orangeDot);
+            //animate the marker
+            marker.setAnimation(google.maps.Animation.DROP);
+            //open infowindow
             infowindow.open(map, marker);
 
             //clean list view
