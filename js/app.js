@@ -20,85 +20,70 @@ function initMap() {
     this.map = new google.maps.Map(document.getElementById('map'), {
         zoom: 10,
         center: fortWorth,
-        styles: [
-          {
-            "featureType": "road.highway",
-            "elementType": "geometry",
-            "stylers": [
-              {
-                "color": "#e3ddc4"
-              }
-            ]
-          },
-          {
-            "featureType": "road.highway",
-            "elementType": "geometry.fill",
-            "stylers": [
-              {
-                "color": "#c9c98b"
-              }
-            ]
-          },
-          {
-            "featureType": "road.highway",
-            "elementType": "geometry.stroke",
-            "stylers": [
-              {
-                "color": "#c8c88e"
-              },
-              {
-                "weight": 0.5
-              }
-            ]
-          },
-          {
-            "featureType": "road.highway",
-            "elementType": "labels",
-            "stylers": [
-              {
-                "saturation": -85
-              },
-              {
-                "lightness": 20
-              }
-            ]
-          },
-          {
-            "featureType": "road.highway.controlled_access",
-            "elementType": "geometry.fill",
-            "stylers": [
-              {
-                "color": "#a5b366"
-              }
-            ]
-          },
-          {
-            "featureType": "road.highway.controlled_access",
-            "elementType": "geometry.stroke",
-            "stylers": [
-              {
-                "color": "#88954a"
-              }
-            ]
-          },
-          {
-            "featureType": "water",
-            "elementType": "geometry.fill",
-            "stylers": [
-              {
-                "color": "#afd1c6"
-              }
-            ]
-          },
-          {
-            "featureType": "water",
-            "elementType": "labels.text.fill",
-            "stylers": [
-              {
-                "color": "#408080"
-              }
-            ]
-          }
+        styles: [{
+                "featureType": "road.highway",
+                "elementType": "geometry",
+                "stylers": [{
+                    "color": "#e3ddc4"
+                }]
+            },
+            {
+                "featureType": "road.highway",
+                "elementType": "geometry.fill",
+                "stylers": [{
+                    "color": "#c9c98b"
+                }]
+            },
+            {
+                "featureType": "road.highway",
+                "elementType": "geometry.stroke",
+                "stylers": [{
+                        "color": "#c8c88e"
+                    },
+                    {
+                        "weight": 0.5
+                    }
+                ]
+            },
+            {
+                "featureType": "road.highway",
+                "elementType": "labels",
+                "stylers": [{
+                        "saturation": -85
+                    },
+                    {
+                        "lightness": 20
+                    }
+                ]
+            },
+            {
+                "featureType": "road.highway.controlled_access",
+                "elementType": "geometry.fill",
+                "stylers": [{
+                    "color": "#a5b366"
+                }]
+            },
+            {
+                "featureType": "road.highway.controlled_access",
+                "elementType": "geometry.stroke",
+                "stylers": [{
+                    "color": "#88954a"
+                }]
+            },
+            {
+                "featureType": "water",
+                "elementType": "geometry.fill",
+                "stylers": [{
+                    "color": "#afd1c6"
+                }]
+            },
+            {
+                "featureType": "water",
+                "elementType": "labels.text.fill",
+                "stylers": [{
+                    "color": "#408080"
+                }]
+            }
         ]
     });
 
@@ -154,7 +139,7 @@ function initMap() {
         });
 
         //add eventlister to show detail
-        marker.addListener('click', function(){
+        marker.addListener('click', function() {
             //change  map scale for company and center
             map.setZoom(14);
             map.setCenter(company);
@@ -209,36 +194,39 @@ function triggerMarkerClick(data) {
 }
 
 //function to reset map to its original scale and center
-function resetMap(){
+function resetMap() {
     //reset map center
-    var fortWorth = {lat: 32.7554883,lng: -97.3307658};
+    var fortWorth = {
+        lat: 32.7554883,
+        lng: -97.3307658
+    };
     map.setCenter(fortWorth);
     map.setZoom(10);
 
     //reset map marker
-    markers.forEach(function(marker){
+    markers.forEach(function(marker) {
         marker.setIcon(redDot);
     });
     //reset infowindows
-    infowindows.forEach(function(infowindow){
+    infowindows.forEach(function(infowindow) {
         infowindow.close();
     })
 }
 
 //use google place API to get company detail information
 //this function is used in marker/list click event
-function processGooglePlaceAPI(company){
+function processGooglePlaceAPI(company) {
     //AJAX from third party API - google place api
     //form URL request
 
     //1.search placeID
     var searchRequest = {
-        location:company,
+        location: company,
         radius: '500',
         query: company.queryName
     };
     var placeService = new google.maps.places.PlacesService(map);
-    placeService.textSearch(searchRequest, function(data, status){
+    placeService.textSearch(searchRequest, function(data, status) {
         //error handling for google place api place search
         if (status !== google.maps.places.PlacesServiceStatus.OK) {
             console.error(status);
@@ -249,9 +237,9 @@ function processGooglePlaceAPI(company){
         //2. use placeId to get place detail
         //this can get website, phone, photo infomartion
         var detailRequest = {
-            placeId:placeId
+            placeId: placeId
         };
-        placeService.getDetails(detailRequest,function(detailData,status){
+        placeService.getDetails(detailRequest, function(detailData, status) {
             //error handling for google place api place detail
             if (status !== google.maps.places.PlacesServiceStatus.OK) {
                 console.error(status);
@@ -264,12 +252,15 @@ function processGooglePlaceAPI(company){
             var rating = detailData.rating;
 
             //check if the data has a photo
-            if(detailData.photos){
+            if (detailData.photos) {
                 //if has, show the photo/attribution DOM
                 viewModel.shouldShowPhoto(true);
                 viewModel.shouldShowAttr(true);
                 //get the data
-                var photoURL = detailData.photos[0].getUrl({'maxWidth': 300, 'maxHeight': 300});
+                var photoURL = detailData.photos[0].getUrl({
+                    'maxWidth': 300,
+                    'maxHeight': 300
+                });
                 var photoAttributions = detailData.photos[0].html_attributions;
             } else {
                 //if not, hide the photo/attribution DOM
@@ -281,7 +272,7 @@ function processGooglePlaceAPI(company){
             viewModel.googlePhotoURL(photoURL);
             viewModel.googlePhone("Phone Number: " + phone);
             viewModel.googleRating("Rating: " + rating + "/5");
-            if(website){
+            if (website) {
                 viewModel.shouldShowWebsite(true);
                 viewModel.googleWebsite(website);
             } else {
@@ -291,39 +282,39 @@ function processGooglePlaceAPI(company){
 
             //use code to adjust the data from api
             //when click on the attribution link, open a new tab
-            $(".attribution a").attr("target","_blank");
+            $(".attribution a").attr("target", "_blank");
         })
     });
 }
 
 //function to request, get and process data from indeed api
 //this function is used in marker/list click event
-function processIndeedAPI(company){
+function processIndeedAPI(company) {
     //AJAX from third party API - indeed api
     //form URL request
-    var indeedURL = "https://api.indeed.com/ads/apisearch?publisher=4001111316373962&format=json&q=" + company.queryName + "&l=" +company.location + " tx&sort=&radius=&st=&jt=&start=&limit=&fromage=&filter=&latlong=1&co=us&chnl=&userip=1.2.3.4&useragent=Mozilla/%2F4.0%28Firefox%29&v=2";
+    var indeedURL = "https://api.indeed.com/ads/apisearch?publisher=4001111316373962&format=json&q=" + company.queryName + "&l=" + company.location + " tx&sort=&radius=&st=&jt=&start=&limit=&fromage=&filter=&latlong=1&co=us&chnl=&userip=1.2.3.4&useragent=Mozilla/%2F4.0%28Firefox%29&v=2";
 
     //get response
     //to avoid CORS problem, need to use .ajax method, use jsonp data type
     //tutorial: https://www.html5rocks.com/en/tutorials/cors/#toc-cors-from-jquery
     //reference: http://hayageek.com/cross-domain-ajax-request-jquery/
     $.ajax({
-      type: 'GET',
-      // The URL to make the request to.
-      url: indeedURL,
-      dataType: "jsonp",
+        type: 'GET',
+        // The URL to make the request to.
+        url: indeedURL,
+        dataType: "jsonp",
 
-      success: function(data) {
-        // handle a successful response.
-        //update the data list into view model array
-        var jobResults = data.results;
-        viewModel.jobResultArray(jobResults);
-      },
+        success: function(data) {
+            // handle a successful response.
+            //update the data list into view model array
+            var jobResults = data.results;
+            viewModel.jobResultArray(jobResults);
+        },
 
-      error: function() {
-        // handle an error response.
-        viewModel.indeedError("Cannot load Jobs. An ERROR has occurred...");
-      }
+        error: function() {
+            // handle an error response.
+            viewModel.indeedError("Cannot load Jobs. An ERROR has occurred...");
+        }
     });
 }
 
@@ -375,8 +366,8 @@ function AppViewModel() {
     //search box value set
     this.companySearch = ko.observable("");
     //use enter key to control search box
-    this.onEnter = function(data,e) {
-        if(e.keyCode === 13){
+    this.onEnter = function(data, e) {
+        if (e.keyCode === 13) {
             this.matchSearch();
         }
     }
@@ -392,7 +383,7 @@ function AppViewModel() {
     //===============
     //search function
     //add shouldShowCompanyName variable to data
-    this.companyArray().forEach(function(company){
+    this.companyArray().forEach(function(company) {
         company.shouldShowCompanyName = ko.observable(true);
     });
 
@@ -420,17 +411,17 @@ function AppViewModel() {
         //if one match found, value = true
         var checkShow = false;
         //loop through the list to find out the matched one
-        this.companyArray().forEach(function(company){
+        this.companyArray().forEach(function(company) {
             //if the search name match list name,
             //show list/marker
-            if(company.name === searchName){
-               company.shouldShowCompanyName(true);
-               company.marker.setMap(map);
-               checkShow = true;
+            if (company.name === searchName) {
+                company.shouldShowCompanyName(true);
+                company.marker.setMap(map);
+                checkShow = true;
             }
         });
 
-        if(checkShow === false){
+        if (checkShow === false) {
             //show no match message
             this.noMatchMessage("Sorry, No Match found...");
         }
@@ -456,7 +447,7 @@ function AppViewModel() {
 
     //function to create Company info card
     //this function is used in marker/list click event
-    this.createCompanyInfoSection = function(company){
+    this.createCompanyInfoSection = function(company) {
         //create title section
         this.companyName(company.name);
         this.companyAddress("Address: " + company.headquarterAddress);
@@ -465,7 +456,7 @@ function AppViewModel() {
 
     //function to create job list section
     //this function is used in marker/list click event
-    this.createJobDetailSection = function(company){
+    this.createJobDetailSection = function(company) {
         //insert title for job list section
         this.jobListTitle("Jobs in " + company.name);
     }
@@ -482,7 +473,7 @@ function AppViewModel() {
     //=========================
     //show all the list/marker
     //this function is attacted to viewModel
-    this.showAllListAndMarker = function(){
+    this.showAllListAndMarker = function() {
         //set the value of search box to be blank
         this.companySearch("");
         //show company list
@@ -491,7 +482,7 @@ function AppViewModel() {
         resetMap();
         //clean no match message
         this.noMatchMessage("");
-         //reset show job button to its original status(text and visibility)
+        //reset show job button to its original status(text and visibility)
         this.shouldShowButton(false);
         this.jobButtonName("Show Jobs");
         //hide company info section
@@ -500,7 +491,7 @@ function AppViewModel() {
         this.shouldShowJobList(false);
 
         //this shows the list/markers
-        this.companyArray().forEach(function(company){
+        this.companyArray().forEach(function(company) {
             //show all the lists
             company.shouldShowCompanyName(true);
             //show all the markers
@@ -510,11 +501,11 @@ function AppViewModel() {
 
     //hide all the list/marker
     //use in marker click event/showDetail function
-    this.hideAllListAndMarker = function(){
+    this.hideAllListAndMarker = function() {
         //clean no match message
         this.noMatchMessage("");
 
-        this.companyArray().forEach(function(company){
+        this.companyArray().forEach(function(company) {
             //hide all the lists
             company.shouldShowCompanyName(false);
             //hide all the markers
@@ -524,7 +515,7 @@ function AppViewModel() {
 
     //click on the list to show its detail information
     //trigger marker click event to achieve
-    this.showDetail = function(company){
+    this.showDetail = function(company) {
         //trigger click event for marker
         triggerMarkerClick(company);
     }
@@ -535,8 +526,8 @@ function AppViewModel() {
     this.shouldShowButton = ko.observable(false);
     this.jobButtonName = ko.observable("Show Jobs");
     //add toggle function to the button
-    this.toggleJobList = function(company){
-        if(this.jobButtonName()==="Show Jobs"){
+    this.toggleJobList = function(company) {
+        if (this.jobButtonName() === "Show Jobs") {
             this.shouldShowJobList(true);
             this.jobButtonName("Hide Jobs");
         } else {
@@ -549,8 +540,8 @@ function AppViewModel() {
     //Map view/list view change button function
     //set and store the initial button name
     this.viewButtonName = ko.observable("List/Info View");
-    this.changeViews = function(){
-        if(this.viewButtonName()==="Map View"){
+    this.changeViews = function() {
+        if (this.viewButtonName() === "Map View") {
             $(".list-view").hide();
             $(".map-view").show();
             this.viewButtonName("List/Info View");
