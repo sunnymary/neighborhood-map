@@ -1,4 +1,3 @@
-
 body {
     margin: 0;
     font-family: arial;
@@ -13,7 +12,7 @@ header {
     width: 100vw;
     height: 50px;
     padding: 15px 15px 10px 15px;
-    border-bottom:  lightgrey 1px solid;
+    border-bottom: lightgrey 1px solid;
     /* the proper shadow code is found at: https://stackoverflow.com/questions/3971880/how-to-make-shadow-on-border-bottom*/
     box-shadow: 0 4px 6px -6px #222;
     z-index: 10;
@@ -56,7 +55,7 @@ main {
     width: 40%;
     min-height: calc(100vh - 100px);
     order: 1;
-    border-right:  lightgrey 1px solid;
+    border-right: lightgrey 1px solid;
     box-shadow: 4px -4px 6px -6px #222;
     z-index: 2;
 }
@@ -64,7 +63,7 @@ main {
 .search {
     padding: 15px;
     display: flex;
-    border-bottom:  lightgrey 1px solid;
+    border-bottom: lightgrey 1px solid;
     box-shadow: 0 4px 6px -6px #222;
     position: fixed;
     height: 62px;
@@ -174,7 +173,7 @@ main {
 }
 
 .company-info a {
-    color:  #a6c63b;
+    color: #a6c63b;
 }
 
 .company-info .google-logo {
@@ -239,12 +238,12 @@ main {
 }
 
 .job-description {
-    font-size:  0.9em;
+    font-size: 0.9em;
 }
 
 .job-list li a {
     color: #a6c63b;
-    font-size:  0.8em;
+    font-size: 0.8em;
 }
 
 .map-view {
@@ -271,38 +270,34 @@ main {
     width: 40%;
 }
 
+
 /*responsive design for different screen size*/
+
 @media screen and (max-width: 1200px) {
     .search {
         height: 105px;
         flex-wrap: wrap;
-        margin:0 auto;
+        margin: 0 auto;
         padding-bottom: 10px;
     }
-
     .easy-autocomplete {
         width: 100% !important;
     }
-
     #search-box {
         display: block;
     }
-
     .search .btn {
         height: 32px;
         width: 130px;
         margin-left: 0;
         margin-right: 20px;
     }
-
     .search .show-all-btn {
         margin-right: 0;
     }
-
     .company-list-container {
         margin-top: 140px;
     }
-
     .company-info-container {
         margin-top: 120px;
     }
@@ -312,15 +307,12 @@ main {
     .list-view {
         width: 45%;
     }
-
     .map-view {
         width: 55%;
     }
-
     .search {
         width: 44.9%;
     }
-
     .footer-note {
         width: 45%;
     }
@@ -331,43 +323,34 @@ main {
         width: 100%;
         height: 62px;
     }
-
     .search .btn {
         width: 80px;
         margin-left: 15px;
         margin-right: 0;
     }
-
     .easy-autocomplete {
         width: 280px !important;
     }
-
     .list-view {
         width: 100%;
         display: none;
     }
-
     .map-view {
         top: 110px;
         width: 100%;
     }
-
     #map {
-        height: calc(100vh-110px);
+        height: calc(100vh - 110px);
     }
-
     .footer-note {
         width: 100%;
     }
-
     .company-list-container {
         margin-top: 100px;
     }
-
     .company-info-container {
         margin-top: 80px;
     }
-
     .view-change-btn {
         visibility: visible;
         margin-top: -5px;
@@ -378,40 +361,31 @@ main {
     body {
         font-size: 0.95em;
     }
-
     .search {
         height: 105px;
     }
-
     .search .btn {
         height: 32px;
         width: 130px;
         margin-left: 0;
         margin-right: 20px;
     }
-
     .search .show-all-btn {
         margin-right: 0;
     }
-
-
     .easy-autocomplete {
         width: 100% !important;
     }
-
     .map-view {
         top: 155px;
         width: 100%;
     }
-
     #map {
         height: calc(100vh - 155px);
     }
-
     .company-list-container {
         margin-top: 140px;
     }
-
     .company-info-container {
         margin-top: 120px;
     }
@@ -423,4 +397,3 @@ main {
         margin-top: -3px;
     }
 }
-
