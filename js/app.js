@@ -89,7 +89,10 @@ function initMap() {
 
     //set variables and attach to global
     this.markers = [];
-    this.infowindows = [];
+    //create a new instance of infowindow
+    this.infowindow = new google.maps.InfoWindow({
+    });
+
     this.redDot = {
         path: google.maps.SymbolPath.CIRCLE,
         scale: 8,
@@ -110,13 +113,6 @@ function initMap() {
 
     //loop through companyList to create marker&infowindow
     companyList.forEach(function(company) {
-        var contentString =
-            '<h4>' + company.name + '</h4>' +
-            '<p>employment:' + company.employment + '</p>';
-
-        var infowindow = new google.maps.InfoWindow({
-            content: contentString
-        });
 
         var marker = new google.maps.Marker({
             position: company,
@@ -126,15 +122,19 @@ function initMap() {
 
         //store created marker/infowindow into list
         markers.push(marker);
-        infowindows.push(infowindow);
 
-        //mouseover/mouseout event - show infowindow & change color
+        //mouseover/mouseout event
         marker.addListener('mouseover', function() {
+            //create infowindow content
+            var contentString = '<h4>' + company.name + '</h4>' +
+            '<p>employment:' + company.employment + '</p>';
+            infowindow.setContent(contentString);
+            //show infowindow & change color
             infowindow.open(map, marker);
             marker.setIcon(orangeDot);
         });
+
         marker.addListener('mouseout', function() {
-            infowindow.close(map, marker);
             marker.setIcon(redDot);
         });
 
@@ -207,10 +207,8 @@ function resetMap() {
     markers.forEach(function(marker) {
         marker.setIcon(redDot);
     });
-    //reset infowindows
-    infowindows.forEach(function(infowindow) {
-        infowindow.close();
-    });
+    //
+    infowindow.close();
 }
 
 //use google place API to get company detail information
