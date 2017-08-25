@@ -294,7 +294,7 @@ function processGooglePlaceAPI(company) {
 function processIndeedAPI(company) {
     //AJAX from third party API - indeed api
     //form URL request
-    var indeedURL = "https://api.indeed.com/ads/apisearch?publisher=4001111316373962&format=json&q=" + company.queryName + "&l=" + company.location + " tx&sort=&radius=&st=&jt=&start=&limit=&fromage=&filter=&latlong=1&co=us&chnl=&userip=1.2.3.4&useragent=Mozilla/%2F4.0%28Firefox%29&v=2";
+    var indeedURL = "http://api.indeed.com/ads/apisearch?publisher=4001111316373962&format=json&q=" + company.queryName + "&l=" + company.location + " tx&sort=&radius=&st=&jt=&start=&limit=&fromage=&filter=&latlong=1&co=us&chnl=&userip=1.2.3.4&useragent=Mozilla/%2F4.0%28Firefox%29&v=2";
 
     //get response
     //to avoid CORS problem, need to use .ajax method, use jsonp data type
