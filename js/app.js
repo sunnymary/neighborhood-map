@@ -318,34 +318,6 @@ function processIndeedAPI(company) {
     });
 }
 
-//autocomplete function
-//use jQuery autocomplete plugin - source: http://easyautocomplete.com/guide
-var options = {
-    //use data. if want to use json, need to run local server.
-    data: companyList,
-    //choose which property to show
-    getValue: "name",
-    //achieve better match.
-    list: {
-        //auto match
-        match: {
-            enabled: true
-        },
-        //click on a list item to trigger event
-        onClickEvent: function() {
-            viewModel.matchSearch();
-        },
-        //enter on a list item to trigger event
-        onKeyEnterEvent: function() {
-            viewModel.matchSearch();
-        }
-    }
-};
-//call the easyAutocomplete method
-$("#search-box").easyAutocomplete(options);
-
-
-
 // This is a simple *viewmodel* - JavaScript that defines the data and behavior of your UI
 function AppViewModel() {
     var self = this;
@@ -362,11 +334,17 @@ function AppViewModel() {
     //indeed error message
     this.indeedError = ko.observable("");
 
+    //===================
+    //autocomplete function
+    //search box value set and data source
+    //use knockout-jqAutocomplete library - source: https://github.com/rniemeyer/knockout-jqAutocomplete
+    this.companySearch = ko.observable();
+    this.myOptions = companyList;
+
     //====================
-    //search box value set
-    this.companySearch = ko.observable("");
-    //use enter key to control search box
-    this.onEnter = function(data, e) {
+    //function to use enter key to control search box
+    //this function is attacted to viewModel
+    this.enterKeyEvent = function(data, e) {
         if (e.keyCode === 13) {
             this.matchSearch();
         }

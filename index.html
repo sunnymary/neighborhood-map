@@ -6,7 +6,7 @@
         <title>Neighborhood Map</title>
         <link rel="stylesheet" href="css/style.css">
         <!-- jQuery autocomplete plugin - source: http://easyautocomplete.com/guide -->
-        <link rel="stylesheet" href="easy-autocomplete/easy-autocomplete.min.css">
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     </head>
     <body>
         <header>
@@ -19,7 +19,7 @@
             <!-- search bar -->
             <div class="search">
                 <!-- search box: link value to viewModel, press enter key to match search -->
-                <input id="search-box" data-bind="textInput: companySearch, event: { keyup: onEnter }" type="text" name="search-box" placeholder="Enter Key Word Here ..." />
+                <input id="search-box" data-bind="jqAuto: { value: companySearch, source: myOptions, valueProp: 'name' }, event: { keyup: enterKeyEvent }" type="text" name="search-box" placeholder="Enter Key Word Here ..." />
                 <button class="btn search-btn" data-bind="click:matchSearch">Search</button>
                 <button class="btn show-all-btn" data-bind="click:showAllListAndMarker">Show All</button>
             </div>
@@ -91,8 +91,10 @@
         <script src='https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js'></script>
         <script async defer
             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDNAFe7q02E2UM1muRwckmBaNg7bheFr_o&libraries=places&callback=initMap"></script>
-        <!-- jQuery autocomplete plugin - source: http://easyautocomplete.com/guide -->
-        <script src="easy-autocomplete/jquery.easy-autocomplete.min.js"></script>
+        <!-- jQuery autocomplete plugin - source: https://jqueryui.com/autocomplete/ -->
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <!-- knockout-jqAutocomplete library - source: https://github.com/rniemeyer/knockout-jqAutocomplete -->
+        <script src="js/lib/knockout-jqAutocomplete.min.js"></script>
         <script src="js/datasheet.js"></script>
         <script src="js/app.js"></script>
     </body>
