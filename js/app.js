@@ -180,6 +180,16 @@ function initMap() {
     }
 }
 
+/**
+ * Error callback for GMap API request
+ * source: https://codepen.io/NKiD/pen/XNrYXa
+ */
+function googleMapError() {
+  // Error handling
+  viewModel.mapError("Sorry, CAN NOT load map ... ");
+  viewModel.shouldShowMapError(true);
+};
+
 //functions to trigger marker events
 function triggerMarkerMouseover(data) {
     google.maps.event.trigger(data.marker, 'mouseover');
@@ -333,6 +343,10 @@ function AppViewModel() {
 
     //indeed error message
     this.indeedError = ko.observable();
+
+    //map error message
+    this.mapError = ko.observable();
+    this.shouldShowMapError = ko.observable(false);
 
     //===================
     //autocomplete function

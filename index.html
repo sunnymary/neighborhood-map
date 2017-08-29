@@ -31,7 +31,7 @@
                         <p class="note">Any <strong>big companys</strong> in your neighbourhood? This is a list of companies with major employment(3000+) in Fort Worth metro area. It is sorted by employment number.</p>
                         <p class="source">source of data: <a class="link" href="http://www.fortworthecodev.com/fort-worth-overview/facts-figures/major-employers/">Fort Worth Chamber</a>, <a class="link" href="https://www.dallasnews.com/business/business/2016/07/15/2016-list-dallas-fort-worths-150-largest-public-companies">Dallas News</a></p>
                     </div>
-                    <p class="message" data-bind="text:noMatchMessage">Sorry, No Match found...</p>
+                    <p class="error" data-bind="text:noMatchMessage">Sorry, No Match found...</p>
                     <ul class="company-list" data-bind="foreach: companyArray">
                         <li data-bind="event: {mouseover: $parent.enableInfowindow, mouseout: $parent.disableInfowindow}, visible: shouldShowCompanyName, click: $parent.showDetail">
                             <span data-bind="text: name"></span>
@@ -63,8 +63,9 @@
                 <!-- job list section from indeed -->
                 <div class="job-list-container" data-bind="visible:shouldShowJobList">
                     <h3 class='job-list-title' data-bind="text:jobListTitle"></h3>
+                    <!-- include indeed api's attribution requirement -->
                     <span id="indeed_at"><a title="Job Search" href="https://www.indeed.com" rel="nofollow" target="_blank">jobs by <img alt=Indeed src="https://www.indeed.com/p/jobsearch.gif" style="border: 0; vertical-align: middle;"></a></span>
-                    <p class="error-indeed" data-bind="text:indeedError"></p>
+                    <p class="error" data-bind="text:indeedError"></p>
                     <ul class="job-list" data-bind="foreach:jobResultArray">
                         <li>
                             <h4 class="job-title" data-bind="text:jobtitle"></h4>
@@ -81,6 +82,7 @@
             </div>
             <!-- interactiv google map -->
             <div class="map-view">
+                <p class="error" data-bind="text:mapError, visible:shouldShowMapError"></p>
                 <div id="map"></div>
             </div>
         </main>
@@ -89,13 +91,12 @@
         </footer>
         <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
         <script src='https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js'></script>
-        <script async defer
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDNAFe7q02E2UM1muRwckmBaNg7bheFr_o&libraries=places&callback=initMap"></script>
         <!-- jQuery autocomplete plugin - source: https://jqueryui.com/autocomplete/ -->
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
         <!-- knockout-jqAutocomplete library - source: https://github.com/rniemeyer/knockout-jqAutocomplete -->
         <script src="js/lib/knockout-jqAutocomplete.min.js"></script>
         <script src="js/datasheet.js"></script>
         <script src="js/app.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDNAFe7q02E2UM1muRwckmBaNg7bheFr_o&libraries=places&callback=initMap" async defer onerror="googleMapError()"></script>
     </body>
 </html>

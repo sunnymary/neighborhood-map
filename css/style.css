@@ -154,11 +154,6 @@ main {
     color: #b7e51d;
 }
 
-.message {
-    color: coral;
-    padding-left: 15px;
-}
-
 .company-info {
     background-color: #e5f2bc;
     margin: 80px 15px 20px 15px;
@@ -203,7 +198,7 @@ main {
     padding-left: 15px;
 }
 
-.error-indeed {
+.error {
     color: coral;
     padding-left: 15px;
 }
