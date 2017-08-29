@@ -185,7 +185,7 @@ function googleMapError() {
   // Error handling
   viewModel.mapError("Sorry, CAN NOT load map ... ");
   viewModel.shouldShowMapError(true);
-};
+}
 
 //functions to trigger marker events
 function triggerMarkerMouseover(data) {
