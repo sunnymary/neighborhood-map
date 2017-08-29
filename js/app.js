@@ -180,10 +180,7 @@ function initMap() {
     }
 }
 
-/**
- * Error callback for GMap API request
- * source: https://codepen.io/NKiD/pen/XNrYXa
- */
+//Error callback for GMap API request
 function googleMapError() {
   // Error handling
   viewModel.mapError("Sorry, CAN NOT load map ... ");
@@ -238,6 +235,8 @@ function processGooglePlaceAPI(company) {
         //error handling for google place api place search
         if (status !== google.maps.places.PlacesServiceStatus.OK) {
             console.error(status);
+            viewModel.googlePlaceError("Sorry, CAN NOT load place detail ... ");
+            viewModel.shouldShowPlaceError(true);
             return;
         }
         var placeId = data[0].place_id;
@@ -251,6 +250,8 @@ function processGooglePlaceAPI(company) {
             //error handling for google place api place detail
             if (status !== google.maps.places.PlacesServiceStatus.OK) {
                 console.error(status);
+                viewModel.googlePlaceError("Sorry, CAN NOT load place detail ... ");
+                viewModel.shouldShowPlaceError(true);
                 return;
             }
 
@@ -347,6 +348,10 @@ function AppViewModel() {
     //map error message
     this.mapError = ko.observable();
     this.shouldShowMapError = ko.observable(false);
+
+    //google place error message
+    this.googlePlaceError = ko.observable();
+    this.shouldShowPlaceError = ko.observable(false);
 
     //===================
     //autocomplete function

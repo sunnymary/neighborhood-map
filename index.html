@@ -57,6 +57,7 @@
                         <p><a data-bind="attr:{href:googleWebsite}, visible:shouldShowWebsite" target="_blank">Go to Website</a></p>
                         <!-- google place attribution logo -->
                         <img class='google-logo' src='./images/powered_by_google_on_white.png' alt='powered by google'>
+                        <p class="error" data-bind="text:googlePlaceError, visible:shouldShowPlaceError"></p>
                     </div>
                     <button class="show-job-btn btn" data-bind="text:jobButtonName, click:toggleJobList, visible: shouldShowButton"></button>
                 </div>
