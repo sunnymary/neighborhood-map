@@ -329,10 +329,10 @@ function AppViewModel() {
     this.shouldShowJobList = ko.observable(false);
 
     //no match message
-    this.noMatchMessage = ko.observable("");
+    this.noMatchMessage = ko.observable();
 
     //indeed error message
-    this.indeedError = ko.observable("");
+    this.indeedError = ko.observable();
 
     //===================
     //autocomplete function
@@ -394,7 +394,7 @@ function AppViewModel() {
             //show list/marker
             if (company.name === searchName) {
                 company.shouldShowCompanyName(true);
-                company.marker.setMap(map);
+                company.marker.setVisible(true);
                 checkShow = true;
             }
         });
@@ -407,20 +407,20 @@ function AppViewModel() {
 
     //=========================
     //company info observables
-    this.companyName = ko.observable("");
-    this.companyAddress = ko.observable("");
-    this.companyEmployment = ko.observable("");
-    this.googlePhotoURL = ko.observable("");
+    this.companyName = ko.observable();
+    this.companyAddress = ko.observable();
+    this.companyEmployment = ko.observable();
+    this.googlePhotoURL = ko.observable();
     this.shouldShowPhoto = ko.observable(true);
     this.shouldShowAttr = ko.observable(true);
-    this.googlePhone = ko.observable("");
-    this.googleRating = ko.observable("");
-    this.googleWebsite = ko.observable("");
+    this.googlePhone = ko.observable();
+    this.googleRating = ko.observable();
+    this.googleWebsite = ko.observable();
     this.shouldShowWebsite = ko.observable(true);
     this.googleAttributionArray = ko.observableArray([]);
 
     //job list observables
-    this.jobListTitle = ko.observable("");
+    this.jobListTitle = ko.observable();
     this.jobResultArray = ko.observableArray([]);
 
     //function to create Company info card
@@ -473,7 +473,8 @@ function AppViewModel() {
             //show all the lists
             company.shouldShowCompanyName(true);
             //show all the markers
-            company.marker.setMap(map);
+            // company.marker.setMap(map);
+            company.marker.setVisible(true);
         });
     };
 
@@ -487,7 +488,8 @@ function AppViewModel() {
             //hide all the lists
             company.shouldShowCompanyName(false);
             //hide all the markers
-            company.marker.setMap(null);
+            // company.marker.setMap(null);
+            company.marker.setVisible(false);
         });
     };
 
