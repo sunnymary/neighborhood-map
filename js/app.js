@@ -111,7 +111,7 @@ function initMap() {
         fillOpacity: 1
     };
 
-    //loop through companyList to create marker&infowindow
+    //loop through companyList to create marker
     companyList.forEach(function(company) {
 
         var marker = new google.maps.Marker({
@@ -120,7 +120,7 @@ function initMap() {
             icon: redDot
         });
 
-        //store created marker/infowindow into list
+        //store created marker into list
         markers.push(marker);
 
         //mouseover/mouseout event
@@ -214,7 +214,7 @@ function resetMap() {
     markers.forEach(function(marker) {
         marker.setIcon(redDot);
     });
-    //
+    //close infowindow
     infowindow.close();
 }
 
@@ -290,10 +290,6 @@ function processGooglePlaceAPI(company) {
                 viewModel.shouldShowWebsite(false);
             }
             viewModel.googleAttributionArray(photoAttributions);
-
-            //use code to adjust the data from api
-            //when click on the attribution link, open a new tab
-            $(".attribution a").attr("target", "_blank");
         });
     });
 }
