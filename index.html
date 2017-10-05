@@ -59,7 +59,8 @@
                         <img class='google-logo' src='./images/powered_by_google_on_white.png' alt='powered by google'>
                         <p class="error" data-bind="text:googlePlaceError, visible:shouldShowPlaceError"></p>
                     </div>
-                    <button class="show-job-btn btn" data-bind="text:jobButtonName, click:toggleJobList, visible: shouldShowButton"></button>
+                    <!-- hide button to avoid https/http incompatibility -->
+                    <!-- <button class="show-job-btn btn" data-bind="text:jobButtonName, click:toggleJobList, visible: shouldShowButton"></button> -->
                 </div>
                 <!-- job list section from indeed -->
                 <div class="job-list-container" data-bind="visible:shouldShowJobList">
